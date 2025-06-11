@@ -1,9 +1,9 @@
-import { FINEPAYMENTSTATUS } from '@/lib/utils';
 import { Badge } from '@/Components/ui/badge';
+import { FINEPAYMENTSTATUS } from '@/lib/utils';
 
-export default function GetFineStatusBadge({ status }){
+export default function GetFineStatusBadge({ status }) {
     const { PENDING, SUCCESS, FAILED } = FINEPAYMENTSTATUS;
-    
+
     let badge, text;
 
     switch (status) {
@@ -19,11 +19,11 @@ export default function GetFineStatusBadge({ status }){
             badge = 'text-white bg-gradient-to-r from-red-400 via-red-500 to-red-500 border-red-500';
             text = FAILED;
             break;
-    
+
         default:
             badge = '';
             text = '-';
     }
 
-    return <Badge className={badge}>{text}</Badge>
+    return <Badge className={badge}>{text}</Badge>;
 }
