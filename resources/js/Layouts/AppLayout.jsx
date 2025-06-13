@@ -1,4 +1,5 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import NavLink from '@/Components/NavLink';
 import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import {
@@ -11,6 +12,7 @@ import {
 } from '@/Components/ui/dropdown-menu';
 import { Toaster } from '@/Components/ui/sonner';
 import { Head, Link } from '@inertiajs/react';
+import { IconAlertCircle, IconBooks, IconBuildingCommunity, IconCategory, IconChartDots2, IconCircleKey, IconCreditCardPay, IconCreditCardRefund, IconDashboard, IconKeyframe, IconLayoutKanban, IconLogout, IconMoneybag, IconRoute, IconSettingsExclamation, IconStack3, IconUser, IconUsersGroup, IconVersions } from '@tabler/icons-react';
 
 export default function AppLayout({ title, children }) {
     return (
@@ -23,7 +25,41 @@ export default function AppLayout({ title, children }) {
                         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                             <ApplicationLogo />
                         </div>
-                        <div className="flex-1">{/* Sidebar */}</div>
+                        <div className="flex-1">
+                            {/* Sidebar */}
+                            <nav className='grid items-center px-2 text-sm font-semibold lg:px-4'>
+                                <div className='px-3 py-2 text-sm font-semibold text-foreground'>Dashboard</div>
+                                <NavLink url='#' title="Dashboard" icon={IconDashboard}/>
+
+                                <div className='px-3 py-2 text-sm font-semibold text-foreground'>Statistik</div>
+                                <NavLink url='#' title="Statistik Peminjaman" icon={IconChartDots2}/>
+                                <NavLink url='#' title="Laporan Denda" icon={IconMoneybag}/>
+                                <NavLink url='#' title="Laporan Stock Buku" icon={IconStack3}/>
+
+                                <div className='px-3 py-2 text-sm font-semibold text-foreground'>Master</div>
+                                <NavLink url='#' title="Kategori" icon={IconCategory}/>
+                                <NavLink url='#' title="Penerbit" icon={IconBuildingCommunity}/>
+                                <NavLink url='#' title="Buku" icon={IconBooks}/>
+                                <NavLink url='#' title="Pengguna" icon={IconUsersGroup}/>
+                                <NavLink url='#' title="Pengaturan Denda" icon={IconSettingsExclamation}/>
+
+                                <div className='px-3 py-2 text-sm font-semibold text-foreground'>Peran dan Izin</div>
+                                <NavLink url='#' title="Peran" icon={IconCircleKey}/>
+                                <NavLink url='#' title="Izin" icon={IconVersions}/>
+                                <NavLink url='#' title="Tetapkan Izin" icon={IconKeyframe}/>
+                                <NavLink url='#' title="Tetapkan Peran" icon={IconLayoutKanban}/>
+                                <NavLink url='#' title="Akses Rute" icon={IconRoute}/>
+
+                                <div className='px-3 py-2 text-sm font-semibold text-foreground'>Transaksi</div>
+                                <NavLink url='#' title="Peminjaman" icon={IconCreditCardPay}/>
+                                <NavLink url='#' title="Pengembalian" icon={IconCreditCardRefund}/>
+
+                                <div className='px-3 py-2 text-sm font-semibold text-foreground'>Lainnya</div>
+                                <NavLink url='#' title="Pengumaman" icon={IconAlertCircle}/>
+                                <NavLink url={route('profile.edit')} title="Profile" icon={IconUser}/>
+                                <NavLink url='#' title="Logout" icon={IconLogout}/>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div className="flex w-full flex-col lg:w-4/5">
