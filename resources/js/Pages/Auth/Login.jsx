@@ -1,8 +1,5 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
 import { Alert, AlertDescription } from '@/Components/ui/alert';
 import { Button } from '@/Components/ui/button';
 import { Checkbox } from '@/Components/ui/checkbox';
@@ -44,31 +41,29 @@ export default function Login({ status, canResetPassword }) {
                             </p>
                         </div>
                         <form onSubmit={onHandleSubmit}>
-                            <div className='grid gap-4'>
-                                <div className='grid gap-2'>
-                                <Label htmlFor="email">Email</Label>
+                            <div className="grid gap-4">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email">Email</Label>
 
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    value={data.email}
-                                    className="mt-1 block w-full"
-                                    autoComplete="username"
-                                    isFocused={true}
-                                    placeholder = "budi@cendikia.test"
-                                    onChange={(e) => setData(e.target.name, e.target.value)}
-                                />
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        name="email"
+                                        value={data.email}
+                                        autoComplete="username"
+                                        placeholder="budi@cendikia.test"
+                                        onChange={(e) => setData(e.target.name, e.target.value)}
+                                    />
 
-                                {errors.email && <InputError message={errors.email}/>}
+                                    {errors.email && <InputError message={errors.email} />}
                                 </div>
-                                <div className='grid gap-2'>
-                                    <div classsName='flex items-center'>
-                                        <Label htmlFor='password'>Password</Label>
+                                <div className="grid gap-2">
+                                    <div classsName="flex items-center">
+                                        <Label htmlFor="password">Password</Label>
                                         {canResetPassword && (
-                                            <Link 
+                                            <Link
                                                 href={route('password.request')}
-                                                className='inline-block ml-auto text-sm underline'
+                                                className="ml-auto inline-block text-sm underline"
                                             >
                                                 Lupa Password
                                             </Link>
@@ -82,27 +77,21 @@ export default function Login({ status, canResetPassword }) {
                                         value={data.password}
                                         onChange={(e) => setData(e.target.name, e.target.value)}
                                     />
-                                    {errors.password &&(
-                                        <InputError message={errors.password}/>
-                                    )}
+                                    {errors.password && <InputError message={errors.password} />}
                                 </div>
-                                <div className='grid gap-2'>
-                                    <div className='items-top flex space-x-2'>
+                                <div className="grid gap-2">
+                                    <div className="items-top flex space-x-2">
                                         <Checkbox
                                             id="remember"
                                             name="remember"
                                             checked={data.remember}
                                             onCheckedChannge={(checked) => setData('remember', checked)}
                                         />
-                                        <div className='grid gap-1.5 leading-name'>
-                                            <Label htmlFor="remember">
-                                                Ingat saya
-                                            </Label>
+                                        <div className="leading-name grid gap-1.5">
+                                            <Label htmlFor="remember">Ingat saya</Label>
                                         </div>
                                     </div>
-                                    {errors.remember && (
-                                        <InputError message={errors.remember}/>
-                                    )}
+                                    {errors.remember && <InputError message={errors.remember} />}
                                 </div>
                                 <Button
                                     type="submit"
@@ -115,23 +104,20 @@ export default function Login({ status, canResetPassword }) {
                                 </Button>
                             </div>
                         </form>
-                        <div className='mt-4 text-center text-sm'>
-                            Belum punya akun? {' '}
-                            <Link
-                                href={route('register')}
-                                className='underline'
-                            >
+                        <div className="mt-4 text-center text-sm">
+                            Belum punya akun?{' '}
+                            <Link href={route('register')} className="underline">
                                 Daftar
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='hidden bg-muted lg:block'>
+            <div className="hidden bg-muted lg:block">
                 <img
-                    src='/images/login.webp'
-                    alt='Login'
-                    className='h-full w-full object-cover dark:brightness-[0.4] dark:grayscale'
+                    src="/images/login.webp"
+                    alt="Login"
+                    className="h-full w-full object-cover dark:brightness-[0.4] dark:grayscale"
                 />
             </div>
         </div>
