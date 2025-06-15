@@ -58,7 +58,7 @@ export default function Login({ status, canResetPassword }) {
                                     {errors.email && <InputError message={errors.email} />}
                                 </div>
                                 <div className="grid gap-2">
-                                    <div classsName="flex items-center">
+                                    <div className="flex items-center">
                                         <Label htmlFor="password">Password</Label>
                                         {canResetPassword && (
                                             <Link

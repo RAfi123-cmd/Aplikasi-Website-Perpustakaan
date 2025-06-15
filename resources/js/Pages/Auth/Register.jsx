@@ -1,9 +1,5 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Alert, AlertDescription } from '@/Components/ui/alert';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
@@ -35,93 +31,84 @@ export default function Register() {
                 <div className="flex flex-col items-center justify-center py-2 lg:py-48">
                     <div className="mx-auto flex w-full flex-col gap-6 lg:w-1/2">
                         <div className="grid gap-2 text-center">
-                            
                             <h1 className="text-3xl font-bold">Daftar</h1>
                             <p className="text-balance text-muted-foreground">
                                 Masukkan informasi anda untuk membuat akun
                             </p>
                         </div>
                         <form onSubmit={submit}>
-                            <div className='grid gap-4'>
-                                <div className='grid gap-2'>
-                                <Label htmlFor="name">Nama</Label>
+                            <div className="grid gap-4">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="name">Nama</Label>
 
-                                <Input
-                                    id="name"
-                                    name="name"
-                                    value={data.name}
-                                    autoComplete="name"
-                                    onChange={onHandleChange}
-                                />
+                                    <Input
+                                        id="name"
+                                        name="name"
+                                        value={data.name}
+                                        autoComplete="name"
+                                        onChange={onHandleChange}
+                                    />
 
-                                {errors.name && (
-                                    <InputError message={errors.name} />
-                                )}
+                                    {errors.name && <InputError message={errors.name} />}
                                 </div>
 
-                                <div className='grid gap-2'>
-                                <Label htmlFor="email">Email</Label>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email">Email</Label>
 
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    value={data.email}
-                                    autoComplete="username"
-                                    type="email"
-                                    onChange={onHandleChange}
-                                />
+                                    <Input
+                                        id="email"
+                                        name="email"
+                                        value={data.email}
+                                        autoComplete="username"
+                                        type="email"
+                                        onChange={onHandleChange}
+                                    />
 
-                                {errors.email && (
-                                    <InputError message={errors.email} />
-                                )}
+                                    {errors.email && <InputError message={errors.email} />}
                                 </div>
 
-                                <div className='grid gap-2'>
-                                <Label htmlFor="password">Password</Label>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="password">Password</Label>
 
-                                <Input
-                                    id="password"
-                                    name="password"
-                                    value={data.password}
-                                    autoComplete="new-password"
-                                    type="password"
-                                    onChange={onHandleChange}
-                                />
+                                    <Input
+                                        id="password"
+                                        name="password"
+                                        value={data.password}
+                                        autoComplete="new-password"
+                                        type="password"
+                                        onChange={onHandleChange}
+                                    />
 
-                                {errors.password && (
-                                    <InputError message={errors.password} />
-                                )}
+                                    {errors.password && <InputError message={errors.password} />}
                                 </div>
 
-                                <div className='grid gap-2'>
-                                <Label htmlFor="password_confirmation">Konfirmasi Passsword</Label>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="password_confirmation">Konfirmasi Passsword</Label>
 
-                                <Input
-                                    id="password_confirmation"
-                                    name="password_confirmation"
-                                    value={data.password_confirmation}
-                                    autoComplete="new-password"
-                                    type="password"
-                                    onChange={onHandleChange}
-                                />
+                                    <Input
+                                        id="password_confirmation"
+                                        name="password_confirmation"
+                                        value={data.password_confirmation}
+                                        autoComplete="new-password"
+                                        type="password"
+                                        onChange={onHandleChange}
+                                    />
 
-                                {errors.password_confirmation && (
-                                    <InputError message={errors.password_confirmation} />
-                                )}
+                                    {errors.password_confirmation && (
+                                        <InputError message={errors.password_confirmation} />
+                                    )}
                                 </div>
 
                                 <Button
-                                type="submit"
-                                variant="orange"
-                                size="xl"
-                                className="w-full"
-                                disabled={processing}
-                            >
-                                Daftar
-                            </Button>
+                                    type="submit"
+                                    variant="orange"
+                                    size="xl"
+                                    className="w-full"
+                                    disabled={processing}
+                                >
+                                    Daftar
+                                </Button>
                             </div>
-
-                            
                         </form>
                         <div className="mt-4 text-center text-sm">
                             Sudah punya akun?{' '}
