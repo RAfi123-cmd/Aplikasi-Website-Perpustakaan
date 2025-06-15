@@ -19,8 +19,8 @@ import Sidebar from './Partials/Sidebar';
 import SidebarResponsive from './Partials/SidebarResponsive';
 export default function AppLayout({ title, children }) {
     const auth = usePage().props.auth.user;
-    
-    const {url} = usePage();
+
+    const { url } = usePage();
     return (
         <>
             <Head title={title} />
@@ -33,7 +33,7 @@ export default function AppLayout({ title, children }) {
                         </div>
                         <div className="flex-1">
                             {/* Sidebar */}
-                            <Sidebar url={url} auth={auth}/>
+                            <Sidebar url={url} auth={auth} />
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ export default function AppLayout({ title, children }) {
                                     </SheetDescription>
                                 </SheetHeader>
                                 {/* menu  sidebar responsive */}
-                                <SidebarResponsive url={url} auth={auth}/>
+                                <SidebarResponsive url={url} auth={auth} />
                             </SheetContent>
                         </Sheet>
                         {/* dropdown */}
@@ -65,8 +65,8 @@ export default function AppLayout({ title, children }) {
                                 <Button variant="ghost" className="flex gap-x-2">
                                     <span>Hi, {auth.name}</span>
                                     <Avatar>
-                                        <AvatarImage src={auth.avatar}/>
-                                        <AvatarFallback>{auth.name.substring(0,1)}</AvatarFallback>
+                                        <AvatarImage src={auth.avatar} />
+                                        <AvatarFallback>{auth.name.substring(0, 1)}</AvatarFallback>
                                     </Avatar>
                                 </Button>
                             </DropdownMenuTrigger>
