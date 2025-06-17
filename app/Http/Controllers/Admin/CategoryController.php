@@ -61,4 +61,36 @@ class CategoryController extends Controller
             return to_route('admin.categories.index');
         }
     }
+
+    public function edit(Category $category): Response
+    {
+        return inertia('Admin/Categories/Edit', [
+            'page_settings' => [
+                'title' => 'Edit Kategori',
+                'subtitle' => 'Edit Kategori disini. Klik simpan setelah selesai',
+                'method' => 'PUT',
+                'action' => route('admin.categories.update', $category)
+            ],
+            'category' => $category,
+        ]);
+    }
+
+    public function update(Category $category, CategoryRequest $request): RedirectResponse
+    {
+        try{
+            $category->update([
+                'name' => $name = $request->name,
+                'slug' => $name !== $category->name ? str()->lower(str()->slug($name) . str()->random(4)) : $category->slug,
+                'description' => $request->description,
+                'cover' => $this->update_file($request, $category, 'cover', 'categories'),
+            ]);
+
+            flashMessage(MessageType::UPDATED->message('Kategori'));
+
+            return to_route('admin.categories.index');
+        }catch(Throwable $e){
+            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            return to_route('admin.categories.index');
+        }
+    }
 }
