@@ -20,7 +20,7 @@ class CategoryResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'cover' => $this->cover ?  Storage::url($this->cover) : null,
+            'cover' => $this->cover ? asset('storage/' . $this->cover) : null,
             'created_at' => $this->created_at->format('d M Y'),
         ];
     }
