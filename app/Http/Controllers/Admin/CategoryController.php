@@ -93,4 +93,21 @@ class CategoryController extends Controller
             return to_route('admin.categories.index');
         }
     }
+
+    public function destroy(Category $category): RedirectResponse
+    {
+        try{
+            $this->delete_file($category, 'cover');
+
+
+            $category->delete();
+
+            flashMessage(MessageType::DELETED->message('Kategori'));
+
+            return to_route('admin.categories.index');
+        }catch(Throwable $e){
+            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            return to_route('admin.categories.index');
+        }
+    }
 }
