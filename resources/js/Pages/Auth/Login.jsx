@@ -85,7 +85,7 @@ export default function Login({ status, canResetPassword }) {
                                             id="remember"
                                             name="remember"
                                             checked={data.remember}
-                                            onCheckedChannge={(checked) => setData('remember', checked)}
+                                            onCheckedChange={(checked) => setData('remember', checked)}
                                         />
                                         <div className="leading-name grid gap-1.5">
                                             <Label htmlFor="remember">Ingat saya</Label>
