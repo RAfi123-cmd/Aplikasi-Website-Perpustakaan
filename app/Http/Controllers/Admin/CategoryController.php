@@ -27,7 +27,9 @@ class CategoryController extends Controller
 
                 ], 'REGEXP', $value);
             })
-            ->paginate(10);
+            ->when(request()->field && request()->direction, fn($query) => $query->orderBy(request()->field, request()->direction))
+            ->paginate(request()->load ?? 10)
+            ->withQueryString();
         
         return inertia('Admin/Categories/Index',  [
             'categories' => CategoryResource::collection($categories)->additional([
@@ -41,8 +43,10 @@ class CategoryController extends Controller
             ],
             'state' => [
                 'page' =>  request()->page ?? 1,
+                'search' => request()->search ?? '',
+                'load' => 10,
                 
-            ]
+            ],
         ]);
     }
     public function create(): Response

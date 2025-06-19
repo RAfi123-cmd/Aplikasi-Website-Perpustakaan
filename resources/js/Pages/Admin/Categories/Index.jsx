@@ -5,18 +5,27 @@ import { Button } from "@/Components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/Components/ui/card"
 import { Input } from "@/Components/ui/input"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/Components/ui/pagination"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
 import { UseFilter } from "@/hooks/UseFilter"
 import AppLayout from "@/Layouts/AppLayout"
 import { flashMessage } from "@/lib/utils"
 import { Link, router } from "@inertiajs/react"
-import { IconCategory, IconPencil, IconPlus, IconTrash } from "@tabler/icons-react"
+import { IconArrowsDownUp, IconCategory, IconPencil, IconPlus, IconTrash } from "@tabler/icons-react"
+import { map } from "lodash"
 import { useState } from "react"
 import { toast } from "sonner"
 
 export default function Index(props){
     const { data: categories, meta } = props.categories;
     const [params, setParams] = useState(props.state);
+    const onSortTable = (field) => {
+        setParams({
+            ...params,
+            field: field,
+            direction: params.direction === 'asc' ? 'desc' : 'asc',
+        })
+    }
 
     UseFilter({
         route: route('admin.categories.index'),
@@ -53,19 +62,74 @@ export default function Index(props){
                             placeholder="Search..."
                             value={params?.search}
                             onChange={(e) => setParams((prev) => ({...prev, search: e.target.value}))}
-
                         />
+                        <Select value={params?.load} onValueChange={(e) => setParams({...params, load: e})}>
+                            <SelectTrigger className="w-full sm:w-24">
+                                <SelectValue placeholder='Load'/>
+                            </SelectTrigger>
+                            <SelectContent>
+                                {[10, 25, 50, 75, 100].map((number, index) =>(
+                                    <SelectItem key={index} value={number}>
+                                        {number}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
                 </CardHeader>
                 <CardContent className="px-0 py-0 [&_td]:whitespace-nowrap [&_td]:px-6 [&_th]:px-6">
                     <Table className="w-full">
                         <TableHeader>
                             <TableRow>
-                                <TableHead>#</TableHead>
-                                <TableHead>Nama</TableHead>
-                                <TableHead>Slug</TableHead>
+                                <TableHead>
+                                    <Button
+                                        variant="ghost"
+                                        className="inline-flex group"
+                                        onClick={() => onSortTable('id')}
+                                    >
+                                        #
+                                        <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <IconArrowsDownUp className="size-4 text-muted-foreground"/>
+                                        </span>
+                                    </Button>
+                                </TableHead>
+                                <TableHead>
+                                    <Button
+                                        variant="ghost"
+                                        className="inline-flex group"
+                                        onClick={() => onSortTable('name')}
+                                    >
+                                        Nama
+                                        <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <IconArrowsDownUp className="size-4 text-muted-foreground"/>
+                                        </span>
+                                    </Button>
+                                </TableHead>
+                                <TableHead>
+                                    <Button
+                                        variant="ghost"
+                                        className="inline-flex group"
+                                        onClick={() => onSortTable('slug')}
+                                    >
+                                        Slug
+                                        <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <IconArrowsDownUp className="size-4 text-muted-foreground"/>
+                                        </span>
+                                    </Button>
+                                </TableHead>
                                 <TableHead>Cover</TableHead>
-                                <TableHead>Dibuat pada</TableHead>
+                                <TableHead>
+                                    <Button
+                                        variant="ghost"
+                                        className="inline-flex group"
+                                        onClick={() => onSortTable('created_at')}
+                                    >
+                                        Dibuat pada
+                                        <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <IconArrowsDownUp className="size-4 text-muted-foreground"/>
+                                        </span>
+                                    </Button>
+                                </TableHead>
                                 <TableHead>Aksi</TableHead>
                             </TableRow>
                         </TableHeader>
