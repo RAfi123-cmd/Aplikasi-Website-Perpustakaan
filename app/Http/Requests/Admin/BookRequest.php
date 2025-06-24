@@ -74,7 +74,7 @@ class BookRequest extends FormRequest
             ],
             'publisher_id' => [
                 'required',
-                'exists:publisher,id',
+                'exists:publishers,id',
             ],
         ];
     }
