@@ -1,28 +1,28 @@
-import HeaderTitle from "@/Components/HeaderTitle"
-import InputError from "@/Components/InputError"
-import { Button } from "@/Components/ui/button"
-import { Card, CardContent } from "@/Components/ui/card"
-import { Input } from "@/Components/ui/input"
-import { Label } from "@/Components/ui/label"
-import { Textarea } from "@/Components/ui/textarea"
-import AppLayout from "@/Layouts/AppLayout"
-import { flashMessage } from "@/lib/utils"
-import { Link, useForm } from "@inertiajs/react"
-import { IconArrowLeft, IconBuildingCommunity, IconCategory } from "@tabler/icons-react"
-import { useRef } from "react"
-import { toast } from "sonner"
+import HeaderTitle from '@/Components/HeaderTitle';
+import InputError from '@/Components/InputError';
+import { Button } from '@/Components/ui/button';
+import { Card, CardContent } from '@/Components/ui/card';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
+import { Textarea } from '@/Components/ui/textarea';
+import AppLayout from '@/Layouts/AppLayout';
+import { flashMessage } from '@/lib/utils';
+import { Link, useForm } from '@inertiajs/react';
+import { IconArrowLeft, IconBuildingCommunity } from '@tabler/icons-react';
+import { useRef } from 'react';
+import { toast } from 'sonner';
 
-export default function Create(props){
+export default function Create(props) {
     const fileInputLogo = useRef(null);
 
-    const { data, setData, reset, post, processing, errors } = useForm ({
+    const { data, setData, reset, post, processing, errors } = useForm({
         name: '',
         address: '',
         email: '',
         phone: '',
         logo: null,
         _method: props.page_settings.method,
-    })
+    });
 
     const onHandleChange = (e) => setData(e.target.name, e.target.value);
 
@@ -30,18 +30,18 @@ export default function Create(props){
         e.preventDefault();
         post(props.page_settings.action, {
             preserveScroll: true,
-            preserveState:true,
+            preserveState: true,
             onSuccess: (success) => {
                 const flash = flashMessage(success);
-                if(flash) toast[flash.type](flash.message)
-            }
+                if (flash) toast[flash.type](flash.message);
+            },
         });
-    }
+    };
 
     const onHandleReset = () => {
         reset();
         fileInputLogo.current.value = null;
-    }
+    };
 
     return (
         <div className="flex w-full flex-col pb-32">
@@ -53,7 +53,7 @@ export default function Create(props){
                 />
                 <Button variant="orange" size="lg" asChild>
                     <Link href={route('admin.publishers.index')}>
-                        <IconArrowLeft className="size-4"/>
+                        <IconArrowLeft className="size-4" />
                         Kembali
                     </Link>
                 </Button>
@@ -72,9 +72,7 @@ export default function Create(props){
                                 onChange={onHandleChange}
                             />
 
-                            {errors.name && (
-                                <InputError message={errors.name}/>
-                            )}
+                            {errors.name && <InputError message={errors.name} />}
                         </div>
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="address">Alamat</Label>
@@ -85,9 +83,7 @@ export default function Create(props){
                                 value={data.address}
                                 onChange={onHandleChange}
                             ></Textarea>
-                            {errors.address && (
-                                <InputError message={errors.address}/>
-                            )}
+                            {errors.address && <InputError message={errors.address} />}
                         </div>
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="email">Email</Label>
@@ -100,9 +96,7 @@ export default function Create(props){
                                 onChange={onHandleChange}
                             />
 
-                            {errors.email && (
-                                <InputError message={errors.email}/>
-                            )}
+                            {errors.email && <InputError message={errors.email} />}
                         </div>
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="phone">Nomor Handphone</Label>
@@ -115,9 +109,7 @@ export default function Create(props){
                                 onChange={onHandleChange}
                             />
 
-                            {errors.phone && (
-                                <InputError message={errors.phone}/>
-                            )}
+                            {errors.phone && <InputError message={errors.phone} />}
                         </div>
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="logo">Cover</Label>
@@ -126,11 +118,9 @@ export default function Create(props){
                                 id="logo"
                                 type="file"
                                 onChange={(e) => setData(e.target.name, e.target.files[0])}
-                                ref={fileInputLogo}                                
+                                ref={fileInputLogo}
                             />
-                            {errors.logo && (
-                                <InputError message={errors.logo}/>
-                            )}
+                            {errors.logo && <InputError message={errors.logo} />}
                         </div>
                         <div className="flex justify-end gap-x-2">
                             <Button type="button" variant="ghost" size="lg" onClick={onHandleReset}>
@@ -144,7 +134,7 @@ export default function Create(props){
                 </CardContent>
             </Card>
         </div>
-    )
+    );
 }
 
-Create.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title}/>
+Create.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title} />;

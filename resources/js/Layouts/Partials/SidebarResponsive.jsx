@@ -41,9 +41,24 @@ export default function SidebarResponsive({ url, auth }) {
                 <NavLinkResponsive url="#" title="Laporan Stock Buku" icon={IconStack3} />
 
                 <div className="px-3 py-2 text-sm font-semibold text-foreground">Master</div>
-                <NavLinkResponsive url={route('admin.categories.index')} active={url.startsWith('/admin/categories')} title="Kategori" icon={IconCategory} />
-                <NavLinkResponsive url={route('admin.publishers.index')} active={url.startsWith('/admin/publishers')} title="Penerbit" icon={IconBuildingCommunity} />
-                <NavLinkResponsive url={route('admin.books.index')} active={url.startsWith('/admin/books')} title="Buku" icon={IconBooks} />
+                <NavLinkResponsive
+                    url={route('admin.categories.index')}
+                    active={url.startsWith('/admin/categories')}
+                    title="Kategori"
+                    icon={IconCategory}
+                />
+                <NavLinkResponsive
+                    url={route('admin.publishers.index')}
+                    active={url.startsWith('/admin/publishers')}
+                    title="Penerbit"
+                    icon={IconBuildingCommunity}
+                />
+                <NavLinkResponsive
+                    url={route('admin.books.index')}
+                    active={url.startsWith('/admin/books')}
+                    title="Buku"
+                    icon={IconBooks}
+                />
                 <NavLinkResponsive url="#" title="Pengguna" icon={IconUsersGroup} />
                 <NavLinkResponsive url="#" title="Pengaturan Denda" icon={IconSettingsExclamation} />
 

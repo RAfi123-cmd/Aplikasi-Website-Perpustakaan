@@ -13,22 +13,21 @@ import { IconArrowLeft, IconBooks } from '@tabler/icons-react';
 import { useRef } from 'react';
 import { toast } from 'sonner';
 
-export default function Create(props) {
+export default function Edit(props) {
     const fileInputCover = useRef(null);
 
     const { data, setData, reset, post, processing, errors } = useForm({
-        title: '',
-        author: '',
-        publication_year: null,
-        isbn: '',
-        language: null,
-        synopsis: '',
-        number_of_pages: '',
+        title: props.book.title ?? '',
+        author: props.book.author ?? '',
+        publication_year: props.book.publication_year ?? null,
+        isbn: props.book.isbn ?? '',
+        language: props.book.language ?? null,
+        synopsis: props.book.synopsis ?? '',
+        number_of_pages: props.book.number_of_pages ?? '',
         cover: null,
-        price: 0,
-        category_id: null,
-        publisher_id: null,
-        total: 0,
+        price: props.book.price ?? 0,
+        category_id: props.book.category_id ?? null,
+        publisher_id: props.book.publisher_id ?? null,
         _method: props.page_settings.method,
     });
 
@@ -260,21 +259,6 @@ export default function Create(props) {
                             {errors.publisher_id && <InputError message={errors.publisher_id} />}
                         </div>
 
-                        <div className="grid w-full items-center gap-1.5">
-                            <Label htmlFor="total">Stok</Label>
-                            <Input
-                                name="total"
-                                id="total"
-                                type="number"
-                                placeholder="Masukkan total stok ..."
-                                min="0"
-                                value={data.total}
-                                onChange={onHandleChange}
-                            />
-
-                            {errors.total && <InputError message={errors.total} />}
-                        </div>
-
                         <div className="flex justify-end gap-x-2">
                             <Button type="button" variant="ghost" size="lg" onClick={onHandleReset}>
                                 Reset
@@ -290,4 +274,4 @@ export default function Create(props) {
     );
 }
 
-Create.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title} />;
+Edit.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title} />;

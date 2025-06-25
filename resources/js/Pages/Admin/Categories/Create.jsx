@@ -1,26 +1,26 @@
-import HeaderTitle from "@/Components/HeaderTitle"
-import InputError from "@/Components/InputError"
-import { Button } from "@/Components/ui/button"
-import { Card, CardContent } from "@/Components/ui/card"
-import { Input } from "@/Components/ui/input"
-import { Label } from "@/Components/ui/label"
-import { Textarea } from "@/Components/ui/textarea"
-import AppLayout from "@/Layouts/AppLayout"
-import { flashMessage } from "@/lib/utils"
-import { Link, useForm } from "@inertiajs/react"
-import { IconArrowLeft, IconCategory } from "@tabler/icons-react"
-import { useRef } from "react"
-import { toast } from "sonner"
+import HeaderTitle from '@/Components/HeaderTitle';
+import InputError from '@/Components/InputError';
+import { Button } from '@/Components/ui/button';
+import { Card, CardContent } from '@/Components/ui/card';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
+import { Textarea } from '@/Components/ui/textarea';
+import AppLayout from '@/Layouts/AppLayout';
+import { flashMessage } from '@/lib/utils';
+import { Link, useForm } from '@inertiajs/react';
+import { IconArrowLeft, IconCategory } from '@tabler/icons-react';
+import { useRef } from 'react';
+import { toast } from 'sonner';
 
-export default function Create(props){
+export default function Create(props) {
     const fileInputCover = useRef(null);
 
-    const { data, setData, reset, post, processing, errors } = useForm ({
-        name:'',
+    const { data, setData, reset, post, processing, errors } = useForm({
+        name: '',
         description: '',
-        cover:null,
+        cover: null,
         _method: props.page_settings.method,
-    })
+    });
 
     const onHandleChange = (e) => setData(e.target.name, e.target.value);
 
@@ -28,18 +28,18 @@ export default function Create(props){
         e.preventDefault();
         post(props.page_settings.action, {
             preserveScroll: true,
-            preserveState:true,
+            preserveState: true,
             onSuccess: (success) => {
                 const flash = flashMessage(success);
-                if(flash) toast[flash.type](flash.message)
-            }
+                if (flash) toast[flash.type](flash.message);
+            },
         });
-    }
+    };
 
     const onHandleReset = () => {
         reset();
         fileInputCover.current.value = null;
-    }
+    };
 
     return (
         <div className="flex w-full flex-col pb-32">
@@ -51,7 +51,7 @@ export default function Create(props){
                 />
                 <Button variant="orange" size="lg" asChild>
                     <Link href={route('admin.categories.index')}>
-                        <IconArrowLeft className="size-4"/>
+                        <IconArrowLeft className="size-4" />
                         Kembali
                     </Link>
                 </Button>
@@ -70,9 +70,7 @@ export default function Create(props){
                                 onChange={onHandleChange}
                             />
 
-                            {errors.name && (
-                                <InputError message={errors.name}/>
-                            )}
+                            {errors.name && <InputError message={errors.name} />}
                         </div>
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="description">Deskripsi</Label>
@@ -83,9 +81,7 @@ export default function Create(props){
                                 value={data.description}
                                 onChange={onHandleChange}
                             ></Textarea>
-                            {errors.description && (
-                                <InputError message={errors.description}/>
-                            )}
+                            {errors.description && <InputError message={errors.description} />}
                         </div>
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="cover">Cover</Label>
@@ -94,11 +90,9 @@ export default function Create(props){
                                 id="cover"
                                 type="file"
                                 onChange={(e) => setData(e.target.name, e.target.files[0])}
-                                ref={fileInputCover}                                
+                                ref={fileInputCover}
                             />
-                            {errors.cover && (
-                                <InputError message={errors.cover}/>
-                            )}
+                            {errors.cover && <InputError message={errors.cover} />}
                         </div>
                         <div className="flex justify-end gap-x-2">
                             <Button type="button" variant="ghost" size="lg" onClick={onHandleReset}>
@@ -112,7 +106,7 @@ export default function Create(props){
                 </CardContent>
             </Card>
         </div>
-    )
+    );
 }
 
-Create.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title}/>
+Create.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title} />;
