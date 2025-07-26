@@ -19,14 +19,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import { UseFilter } from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
-import { flashMessage } from '@/lib/utils';
+import { flashMessage, formatToRupiah } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
-import { IconArrowsDownUp, IconCategory, IconCreditCardPay, IconCreditCardRefund, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconCategory, IconCreditCardRefund, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Index(props) {
-    const { data: loans, meta } = props.loans;
+    const { data: return_books, meta } = props.return_books;
     const [params, setParams] = useState(props.state);
     const onSortTable = (field) => {
         setParams({
@@ -37,9 +37,9 @@ export default function Index(props) {
     };
 
     UseFilter({
-        route: route('admin.loans.index'),
+        route: route('admin.return-books.index'),
         values: params,
-        only: ['loans'],
+        only: ['return_books'],
     });
 
     return (
@@ -48,14 +48,9 @@ export default function Index(props) {
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
-                    icon={IconCreditCardPay}
+                    icon={IconCreditCardRefund}
                 />
-                <Button variant="orange" size="lg" asChild>
-                    <Link href={route('admin.loans.create')}>
-                        <IconPlus className="size-4" />
-                        Tambah
-                    </Link>
-                </Button>
+                
             </div>
             <Card>
                 <CardHeader>
@@ -104,6 +99,18 @@ export default function Index(props) {
                                     <Button
                                         variant="ghost"
                                         className="group inline-flex"
+                                        onClick={() => onSortTable('return_book_code')}
+                                    >
+                                        Kode Pengembalian
+                                        <span className="ml-2 flex-none rounded text-muted-foreground">
+                                            <IconArrowsDownUp className="size-4 text-muted-foreground" />
+                                        </span>
+                                    </Button>
+                                </TableHead>
+                                <TableHead>
+                                    <Button
+                                        variant="ghost"
+                                        className="group inline-flex"
                                         onClick={() => onSortTable('loan_code')}
                                     >
                                         Kode Peminjaman
@@ -140,6 +147,18 @@ export default function Index(props) {
                                     <Button
                                         variant="ghost"
                                         className="group inline-flex"
+                                        onClick={() => onSortTable('status')}
+                                    >
+                                        Status
+                                        <span className="ml-2 flex-none rounded text-muted-foreground">
+                                            <IconArrowsDownUp className="size-4 text-muted-foreground" />
+                                        </span>
+                                    </Button>
+                                </TableHead>
+                                <TableHead>
+                                    <Button
+                                        variant="ghost"
+                                        className="group inline-flex"
                                         onClick={() => onSortTable('loan_date')}
                                     >
                                         Tanggal Peminjaman
@@ -164,6 +183,20 @@ export default function Index(props) {
                                     <Button
                                         variant="ghost"
                                         className="group inline-flex"
+                                        onClick={() => onSortTable('return_date')}
+                                    >
+                                        Tanggal Pengembalian
+                                        <span className="ml-2 flex-none rounded text-muted-foreground">
+                                            <IconArrowsDownUp className="size-4 text-muted-foreground" />
+                                        </span>
+                                    </Button>
+                                </TableHead>
+                                <TableHead>Denda</TableHead>
+                                <TableHead>kondisi</TableHead>
+                                <TableHead>
+                                    <Button
+                                        variant="ghost"
+                                        className="group inline-flex"
                                         onClick={() => onSortTable('created_at')}
                                     >
                                         Dibuat pada
@@ -177,68 +210,24 @@ export default function Index(props) {
                         </TableHeader>
                         <TableBody>
                             {/* perulangann */}
-                            {loans.map((loan, index) => (
+                            {return_books.map((return_book, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
-                                    <TableCell>{loan.loan_code}</TableCell>
-                                    <TableCell>{loan.user.name}</TableCell>
-                                    <TableCell>{loan.book.title}</TableCell>
-                                    <TableCell>{loan.loan_date}</TableCell>
-                                    <TableCell>{loan.due_date}</TableCell>
-                                    <TableCell>{loan.created_at}</TableCell>
+                                    <TableCell>{return_book.return_book_code}</TableCell>
+                                    <TableCell>{return_book.loan.loan_code}</TableCell>
+                                    <TableCell>{return_book.user.name}</TableCell>
+                                    <TableCell>{return_book.book.title}</TableCell>
+                                    <TableCell>{return_book.status}</TableCell>
+                                    <TableCell>{return_book.loan.loan_date}</TableCell>
+                                    <TableCell>{return_book.loan.due_date}</TableCell>
+                                    <TableCell>{return_book.return_date}</TableCell>
+                                    <TableCell className='text-red-500'>
+                                        {formatToRupiah(return_book.fine)}
+                                    </TableCell>
+                                    <TableCell>{return_book.return_book_check}</TableCell>
+                                    <TableCell>{return_book.created_at}</TableCell>
                                     <TableCell>
-                                        <div className="flex items-center gap-x-1">
-                                            {!loan.has_return_book && (
-                                                <Button variant="purple" size="sm" asChild>
-                                                    <Link href={route('admin.return-books.create', [loan])}>
-                                                        <IconCreditCardRefund className='size-4'/>
-                                                    </Link>
-                                                </Button>
-                                            )}
-                                            <Button variant="blue" size="sm" asChild>
-                                                <Link href={route('admin.loans.edit', [loan])}>
-                                                    <IconPencil className="size-4" />
-                                                </Link>
-                                            </Button>
-                                            <AlertDialog>
-                                                <AlertDialogTrigger asChild>
-                                                    <Button variant="red" size="sm">
-                                                        <IconTrash size="4" />
-                                                    </Button>
-                                                </AlertDialogTrigger>
-                                                <AlertDialogContent>
-                                                    <AlertDialogHeader>
-                                                        <AlertDialogTitle>
-                                                            Apakah anda benar-benar yakin?
-                                                        </AlertDialogTitle>
-                                                        <AlertDialogDescription>
-                                                            Tindakan ini tidak dapat dibatalkan. Tindakan ini akan
-                                                            menghapus data secara permanen dan menghapus data anda dari
-                                                            server kami
-                                                        </AlertDialogDescription>
-                                                    </AlertDialogHeader>
-                                                    <AlertDialogFooter>
-                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction
-                                                            onClick={() =>
-                                                                router.delete(
-                                                                    route('admin.loans.destroy', [loan]), {
-                                                                        preserveScroll: true,
-                                                                        preserveState: true,
-                                                                        onSuccess: (success) =>  {
-                                                                            const flash = flashMessage(success);
-                                                                            if(flash) toast[flash.type](flash.message);
-                                                                        }
-                                                                    }
-                                                                )
-                                                            }
-                                                        >
-                                                            Continue
-                                                        </AlertDialogAction>
-                                                    </AlertDialogFooter>
-                                                </AlertDialogContent>
-                                            </AlertDialog>
-                                        </div>
+                                        -
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -249,7 +238,7 @@ export default function Index(props) {
                 <CardFooter className="flex w-full flex-col items-center justify-between border-t py-2 lg:flex-row">
                     <p className="mb-2 text-sm text-muted-foreground">
                         Menampilkan <span className="font-medium text-orange-500">{meta.from ?? 0}</span> dari{' '}
-                        {meta.total} peminjaman
+                        {meta.total} Pengembalian
                     </p>
                     <div className="overflow-x-auto">
                         {meta.has_pages && (

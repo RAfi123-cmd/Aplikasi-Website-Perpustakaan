@@ -68,7 +68,7 @@ export default function Sidebar({ url, auth }) {
 
             <div className="px-3 py-2 text-sm font-semibold text-foreground">Transaksi</div>
             <NavLink url={route('admin.loans.index')} active={url.startsWith('/admin/loans')} title="Peminjaman" icon={IconCreditCardPay} />
-            <NavLink url="#" title="Pengembalian" icon={IconCreditCardRefund} />
+            <NavLink url={route('admin.return-books.index')} active={url.startsWith('/admin/return-books')} title="Pengembalian" icon={IconCreditCardRefund} />
 
             <div className="px-3 py-2 text-sm font-semibold text-foreground">Lainnya</div>
             <NavLink url="#" title="Pengumaman" icon={IconAlertCircle} />
