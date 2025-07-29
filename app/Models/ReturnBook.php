@@ -99,7 +99,7 @@ class ReturnBook extends Model
         return $query->where('user_id', $user_id);
     }
 
-    public function inOnTime(): bool
+    public function isOnTime(): bool
     {
         return Carbon::today()->lessThanOrEqualTo(Carbon::parse($this->loan->due_date));
     }

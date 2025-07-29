@@ -110,7 +110,7 @@ class Book extends Model
         return $this->updateStock('loan', 'lost');
     }
 
-    public function stock_damage()
+    public function stock_damaged()
     {
         return $this->updateStock('loan', 'damaged');
     }
