@@ -112,7 +112,7 @@ class LoanController extends Controller
 
             return to_route('admin.loans.index');
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.loans.index');
         }
     }
@@ -177,7 +177,7 @@ class LoanController extends Controller
 
             return to_route('admin.loans.index');
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.loans.index');
         }
     }
@@ -190,7 +190,7 @@ class LoanController extends Controller
             flashMessage(MessageType::DELETED->message('peminjaman'));
             return to_route('admin.loans.index');
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.loans.index');
         }
     }

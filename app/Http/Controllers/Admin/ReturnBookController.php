@@ -129,7 +129,7 @@ class ReturnBookController extends Controller
         } catch (Throwable $e) {
             DB::rollBack();
 
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()));
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
             return to_route('admin.loans.index');
         }
     }

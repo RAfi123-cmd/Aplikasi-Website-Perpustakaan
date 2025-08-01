@@ -69,7 +69,7 @@ class CategoryController extends Controller
 
             return to_route('admin.categories.index');
         }catch(Throwable $e){
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
 
             return to_route('admin.categories.index');
         }
@@ -102,7 +102,7 @@ class CategoryController extends Controller
 
             return to_route('admin.categories.index');
         }catch(Throwable $e){
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.categories.index');
         }
     }
@@ -119,7 +119,7 @@ class CategoryController extends Controller
 
             return to_route('admin.categories.index');
         }catch(Throwable $e){
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.categories.index');
         }
     }

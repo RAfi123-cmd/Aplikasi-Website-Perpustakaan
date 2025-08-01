@@ -104,7 +104,7 @@ class BookController extends Controller
             flashMessage(MessageType::CREATED->message('Buku'));
             return to_route('admin.books.index');
         }catch(Throwable $e){
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.books.index');
         }
     }
@@ -163,7 +163,7 @@ class BookController extends Controller
             flashMessage(MessageType::UPDATED->message('Buku'));
             return to_route('admin.books.index');
         }catch(Throwable $e){
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.books.index');
         }
     }
@@ -179,7 +179,7 @@ class BookController extends Controller
             return to_route('admin.books.index');
 
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.books.index');
         }
     }

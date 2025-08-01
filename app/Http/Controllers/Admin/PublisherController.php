@@ -71,7 +71,7 @@ class PublisherController extends Controller
             return to_route('admin.publishers.index');
 
         }catch(Throwable $e){
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.publishers.index');
         }
     }
@@ -105,7 +105,7 @@ class PublisherController extends Controller
             return to_route('admin.publishers.index');
 
         }catch(Throwable $e){
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.publishers.index');
         }
     }
@@ -119,7 +119,7 @@ class PublisherController extends Controller
             flashMessage(MessageType::DELETED->message('Penerbit'));
             return to_route('admin.publishers.index');
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()), 'error');
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('admin.publishers.index');
         }
     }

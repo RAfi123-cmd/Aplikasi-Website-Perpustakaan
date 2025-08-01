@@ -76,7 +76,7 @@ class UserController extends Controller
             flashMessage(MessageType::CREATED->message('Pengguna'));
             return to_route('admin.users.index');
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()));
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
             return to_route('admin.users.index');
         }
     }
@@ -113,7 +113,7 @@ class UserController extends Controller
             flashMessage(MessageType::UPDATED->message('Pengguna'));
             return to_route('admin.users.index');
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()));
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
             return to_route('admin.users.index');
         }
     }
@@ -129,7 +129,7 @@ class UserController extends Controller
 
             return to_route('admin.users.index');
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERRROR->message(error: $e->getMessage()));
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
             return to_route('admin.users.index');
         }
     }
