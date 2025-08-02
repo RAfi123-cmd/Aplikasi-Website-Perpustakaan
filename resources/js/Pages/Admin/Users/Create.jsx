@@ -5,11 +5,10 @@ import { Card, CardContent } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
-import { Textarea } from '@/Components/ui/textarea';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCategory, IconUsersGroup } from '@tabler/icons-react';
+import { IconArrowLeft, IconUsersGroup } from '@tabler/icons-react';
 import { useRef } from 'react';
 import { toast } from 'sonner';
 
@@ -131,31 +130,26 @@ export default function Create(props) {
                             {errors.phone && <InputError message={errors.phone} />}
                         </div>
 
-
                         <div className="grid w-full items-center gap-1.5">
-                                                    <Label htmlFor="gender">Jenis Kelamin</Label>
-                                                    <Select
-                                                        defaultValue={data.gender}
-                                                        onValueChange={(value) => setData('gender', value)}
-                                                    >
-                                                        <SelectTrigger>
-                                                            <SelectValue>
-                                                                {props.genders.find(
-                                                                    (gender) => gender.value == data.gender,
-                                                                )?.label ?? 'Pilih Jenis Kelamin'}
-                                                            </SelectValue>
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {props.genders.map((gender, index) => (
-                                                                <SelectItem key={index} value={gender.value}>
-                                                                    {gender.label}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
-                        
-                                                    {errors.publisher_id && <InputError message={errors.publisher_id} />}
-                                                </div>
+                            <Label htmlFor="gender">Jenis Kelamin</Label>
+                            <Select defaultValue={data.gender} onValueChange={(value) => setData('gender', value)}>
+                                <SelectTrigger>
+                                    <SelectValue>
+                                        {props.genders.find((gender) => gender.value == data.gender)?.label ??
+                                            'Pilih Jenis Kelamin'}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {props.genders.map((gender, index) => (
+                                        <SelectItem key={index} value={gender.value}>
+                                            {gender.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                            {errors.publisher_id && <InputError message={errors.publisher_id} />}
+                        </div>
 
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="cover">Cover</Label>

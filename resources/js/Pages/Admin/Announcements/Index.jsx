@@ -10,24 +10,18 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/Components/ui/alert-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
-import { Input } from '@/Components/ui/input';
+import { Card, CardContent, CardFooter } from '@/Components/ui/card';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/Components/ui/pagination';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
-import { UseFilter } from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
-import { IconAlertCircle, IconArrowsDownUp, IconCategory, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
-import { useState } from 'react';
+import { IconAlertCircle, IconPencil, IconPlus, IconTrash } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Index(props) {
     const { data: announcements, meta } = props.announcements;
-    
 
     return (
         <div className="flex w-full flex-col pb-32">
@@ -45,7 +39,6 @@ export default function Index(props) {
                 </Button>
             </div>
             <Card>
-                
                 <CardContent className="px-0 py-0 [&_td]:whitespace-nowrap [&_td]:px-6 [&_th]:px-6">
                     <Table className="w-full">
                         <TableHeader>
@@ -67,7 +60,7 @@ export default function Index(props) {
                                     <TableCell>{announcement.url}</TableCell>
                                     <TableCell>{announcement.url}</TableCell>
                                     <TableCell>{announcement.is_active}</TableCell>
-                                    
+
                                     <TableCell>{announcement.created_at}</TableCell>
                                     <TableCell>
                                         <div className="flex items-center gap-x-1">
@@ -98,15 +91,17 @@ export default function Index(props) {
                                                         <AlertDialogAction
                                                             onClick={() =>
                                                                 router.delete(
-                                                                    route('admin.announcements.destroy', [announcement]),
+                                                                    route('admin.announcements.destroy', [
+                                                                        announcement,
+                                                                    ]),
                                                                     {
                                                                         preserveScroll: true,
                                                                         preserveState: true,
                                                                         onSuccess: (success) => {
                                                                             const flash = flashMessage(success);
-                                                                            if(flash) toast[flash.type](flash.message);
-                                                                        }
-                                                                    }
+                                                                            if (flash) toast[flash.type](flash.message);
+                                                                        },
+                                                                    },
                                                                 )
                                                             }
                                                         >

@@ -59,8 +59,18 @@ export default function SidebarResponsive({ url, auth }) {
                     title="Buku"
                     icon={IconBooks}
                 />
-                <NavLinkResponsive url={route('admin.users.index')} active={url.startsWith('/admin/users')} title="Pengguna" icon={IconUsersGroup} />
-                <NavLinkResponsive url={route('admin.fine-settings.create')} active={url.startsWith('/admin/fine-settings')} title="Pengaturan Denda" icon={IconSettingsExclamation} />
+                <NavLinkResponsive
+                    url={route('admin.users.index')}
+                    active={url.startsWith('/admin/users')}
+                    title="Pengguna"
+                    icon={IconUsersGroup}
+                />
+                <NavLinkResponsive
+                    url={route('admin.fine-settings.create')}
+                    active={url.startsWith('/admin/fine-settings')}
+                    title="Pengaturan Denda"
+                    icon={IconSettingsExclamation}
+                />
 
                 <div className="px-3 py-2 text-sm font-semibold text-foreground">Peran dan Izin</div>
                 <NavLinkResponsive url="#" title="Peran" icon={IconCircleKey} />
@@ -70,12 +80,32 @@ export default function SidebarResponsive({ url, auth }) {
                 <NavLinkResponsive url="#" title="Akses Rute" icon={IconRoute} />
 
                 <div className="px-3 py-2 text-sm font-semibold text-foreground">Transaksi</div>
-                <NavLinkResponsive url={route('admin.loans.index')} active={url.startsWith('/admin/loans')} title="Peminjaman" icon={IconCreditCardPay} />
-                <NavLinkResponsive url={route('admin.return-books.index')} active={url.startsWith('/admin/return-books')} title="Pengembalian" icon={IconCreditCardRefund} />
+                <NavLinkResponsive
+                    url={route('admin.loans.index')}
+                    active={url.startsWith('/admin/loans')}
+                    title="Peminjaman"
+                    icon={IconCreditCardPay}
+                />
+                <NavLinkResponsive
+                    url={route('admin.return-books.index')}
+                    active={url.startsWith('/admin/return-books')}
+                    title="Pengembalian"
+                    icon={IconCreditCardRefund}
+                />
 
                 <div className="px-3 py-2 text-sm font-semibold text-foreground">Lainnya</div>
-                <NavLinkResponsive url={route('admin.announcements.index')} active={url.startsWith('/admin/announcements')} title="Pengumaman" icon={IconAlertCircle} />
-                <NavLinkResponsive url={route('profile.edit')} title="Profile" icon={IconUser} />
+                <NavLinkResponsive
+                    url={route('admin.announcements.index')}
+                    active={url.startsWith('/admin/announcements')}
+                    title="Pengumaman"
+                    icon={IconAlertCircle}
+                />
+                <NavLinkResponsive
+                    url={route('profile.edit')}
+                    active={url.startsWith('/admin/profile')}
+                    title="Profile"
+                    icon={IconUser}
+                />
                 <NavLinkResponsive
                     url={route('logout')}
                     title="Logout"

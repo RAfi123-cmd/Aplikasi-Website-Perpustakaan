@@ -4,10 +4,9 @@ import { Button } from '@/Components/ui/button';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
-import { Textarea } from '@/Components/ui/textarea';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
-import { Link, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { IconSettingsExclamation } from '@tabler/icons-react';
 import { useRef } from 'react';
 import { toast } from 'sonner';
@@ -49,7 +48,6 @@ export default function Create(props) {
                     subtitle={props.page_settings.subtitle}
                     icon={IconSettingsExclamation}
                 />
-                
             </div>
             <Card>
                 <CardContent className="p-6">
@@ -92,7 +90,7 @@ export default function Create(props) {
 
                             {errors.lost_fee_percentage && <InputError message={errors.lost_fee_percentage} />}
                         </div>
-                        
+
                         <div className="flex justify-end gap-x-2">
                             <Button type="button" variant="ghost" size="lg" onClick={onHandleReset}>
                                 Reset

@@ -1,16 +1,4 @@
 import HeaderTitle from '@/Components/HeaderTitle';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/Components/ui/alert-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
@@ -19,11 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import { UseFilter } from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
-import { flashMessage, formatToRupiah } from '@/lib/utils';
-import { Link, router } from '@inertiajs/react';
-import { IconArrowsDownUp, IconCategory, IconCreditCardRefund, IconEye, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
+import { formatToRupiah } from '@/lib/utils';
+import { Link } from '@inertiajs/react';
+import { IconArrowsDownUp, IconCreditCardRefund, IconEye, IconRefresh } from '@tabler/icons-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 export default function Index(props) {
     const { data: return_books, meta } = props.return_books;
@@ -50,7 +37,6 @@ export default function Index(props) {
                     subtitle={props.page_settings.subtitle}
                     icon={IconCreditCardRefund}
                 />
-                
             </div>
             <Card>
                 <CardHeader>
@@ -221,17 +207,15 @@ export default function Index(props) {
                                     <TableCell>{return_book.loan.loan_date}</TableCell>
                                     <TableCell>{return_book.loan.due_date}</TableCell>
                                     <TableCell>{return_book.return_date}</TableCell>
-                                    <TableCell className='text-red-500'>
-                                        {formatToRupiah(return_book.fine)}
-                                    </TableCell>
+                                    <TableCell className="text-red-500">{formatToRupiah(return_book.fine)}</TableCell>
                                     <TableCell>{return_book.return_book_check}</TableCell>
                                     <TableCell>{return_book.created_at}</TableCell>
                                     <TableCell>
-                                        <div className='flex items-center gap-x-1'>
+                                        <div className="flex items-center gap-x-1">
                                             {return_book.fine && (
                                                 <Button variant="blue" size="sm" asChild>
                                                     <Link href={route('admin.fines.create', [return_book])}>
-                                                        <IconEye className='size-4'/>
+                                                        <IconEye className="size-4" />
                                                     </Link>
                                                 </Button>
                                             )}

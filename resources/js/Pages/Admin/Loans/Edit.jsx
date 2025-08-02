@@ -3,19 +3,14 @@ import HeaderTitle from '@/Components/HeaderTitle';
 import InputError from '@/Components/InputError';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent } from '@/Components/ui/card';
-import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
-import { Textarea } from '@/Components/ui/textarea';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconBooks, IconCreditCardPay } from '@tabler/icons-react';
-import { useRef } from 'react';
+import { IconArrowLeft, IconCreditCardPay } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Edit(props) {
-
     const { data, setData, reset, post, processing, errors } = useForm({
         user: props.page_data.loan.user.name ?? null,
         book: props.page_data.loan.book.title ?? null,
@@ -23,7 +18,7 @@ export default function Edit(props) {
         due_date: props.page_data.date.due_date,
         _method: props.page_settings.method,
     });
-    
+
     const onHandleSubmit = (e) => {
         e.preventDefault();
         post(props.page_settings.action, {
@@ -58,14 +53,12 @@ export default function Edit(props) {
             <Card>
                 <CardContent className="p-6">
                     <form className="space-y-6" onSubmit={onHandleSubmit}>
-                        
-
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="user">Nama</Label>
                             <ComboBox
                                 items={props.page_data.users}
                                 selectedItem={data.user}
-                                onSelect={(currentValue) => setData('user', currentValue)} 
+                                onSelect={(currentValue) => setData('user', currentValue)}
                             />
 
                             {errors.user && <InputError message={errors.user} />}
@@ -76,12 +69,11 @@ export default function Edit(props) {
                             <ComboBox
                                 items={props.page_data.books}
                                 selectedItem={data.book}
-                                onSelect={(currentValue) => setData('book', currentValue)} 
+                                onSelect={(currentValue) => setData('book', currentValue)}
                             />
 
                             {errors.book && <InputError message={errors.book} />}
                         </div>
-
 
                         <div className="flex justify-end gap-x-2">
                             <Button type="button" variant="ghost" size="lg" onClick={onHandleReset}>

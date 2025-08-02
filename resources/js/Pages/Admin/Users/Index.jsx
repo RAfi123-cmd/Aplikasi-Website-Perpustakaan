@@ -21,7 +21,7 @@ import { UseFilter } from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
-import { IconArrowsDownUp, IconCategory, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsersGroup } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsersGroup } from '@tabler/icons-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -247,16 +247,14 @@ export default function Index(props) {
                                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                                                         <AlertDialogAction
                                                             onClick={() =>
-                                                               router.delete(
-                                                                route('admin.users.destroy', [user]), {
+                                                                router.delete(route('admin.users.destroy', [user]), {
                                                                     preserveState: true,
                                                                     preserveScroll: true,
                                                                     onSuccess: (success) => {
                                                                         const flash = flashMessage(success);
-                                                                        if(flash) toast[flash.type](flash.message);
-                                                                    }
-                                                                }
-                                                               )
+                                                                        if (flash) toast[flash.type](flash.message);
+                                                                    },
+                                                                })
                                                             }
                                                         >
                                                             Continue

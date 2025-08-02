@@ -5,17 +5,13 @@ import { Card, CardContent } from '@/Components/ui/card';
 import { Checkbox } from '@/Components/ui/checkbox';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
-import { Textarea } from '@/Components/ui/textarea';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconAlertCircle, IconArrowLeft, IconCategory } from '@tabler/icons-react';
-import { useRef } from 'react';
+import { IconAlertCircle, IconArrowLeft } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Create(props) {
-    
-
     const { data, setData, reset, post, processing, errors } = useForm({
         message: '',
         url: '',
@@ -86,7 +82,7 @@ export default function Create(props) {
                             {errors.url && <InputError message={errors.url} />}
                         </div>
                         <div className="grid w-full items-center gap-1.5">
-                            <div className='flex items-top space-x-2'>
+                            <div className="items-top flex space-x-2">
                                 <Checkbox
                                     id="is_active"
                                     name="is_active"
@@ -94,15 +90,13 @@ export default function Create(props) {
                                     onCheckedChange={(checked) => setData('is_active', checked)}
                                 />
 
-                                <div className='grid gap-1/5 leading-none'>
-                                    <Label htmlFor="is_active">
-                                        Apakah aktif 
-                                    </Label>
+                                <div className="gap-1/5 grid leading-none">
+                                    <Label htmlFor="is_active">Apakah aktif</Label>
                                 </div>
                             </div>
                             {errors.is_active && <InputError message={errors.is_active} />}
                         </div>
-                        
+
                         <div className="flex justify-end gap-x-2">
                             <Button type="button" variant="ghost" size="lg" onClick={onHandleReset}>
                                 Reset
