@@ -50,7 +50,7 @@ class AssignPermissionController extends Controller
         return inertia('Admin/AssignPermissions/Edit', [
             'page_settings' => [
                 'title' => 'Sinkronisasi Izin',
-                'subtitle' => 'Sinkronisasi izin di sini. Klik simpan setelag selesai.',
+                'subtitle' => 'Sinkronisasi izin di sini. Klik simpan setelah selesai.',
                 'method' => 'PUT',
                 'action' => route('admin.assign-permissions.update', $role),
             ],
