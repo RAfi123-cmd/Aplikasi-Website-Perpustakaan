@@ -147,7 +147,7 @@ class ReturnBookController extends Controller
 
     private function  calculateFine(ReturnBook $returnBook, ReturnBookCheck $returnBookCheck, FineSetting $fineSetting, int $daysLate): ?array
     {
-        $late_fee = $fineSetting->late_fee_per_day + $daysLate;
+        $late_fee = $fineSetting->late_fee_per_day * $daysLate;
         switch ($returnBookCheck->condition->value){
             case ReturnBookCondition::DAMAGED->value:
                 $other_fee = ($fineSetting->damage_fee_percentage / 100) * $returnBook->book->price;
