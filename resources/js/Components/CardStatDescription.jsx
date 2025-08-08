@@ -1,6 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
-export default function CardStatDescription({title, description, children}) {
+export default function CardStatDescription({ title, description, children }) {
     return (
         <Card>
             <CardHeader className="p-4 pb-0">
@@ -9,5 +9,5 @@ export default function CardStatDescription({title, description, children}) {
             </CardHeader>
             <CardContent className="flex flex-row items-baseline gap-4 p-2 pt-2">{children}</CardContent>
         </Card>
-    )
+    );
 }

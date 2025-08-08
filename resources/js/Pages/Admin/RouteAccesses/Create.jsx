@@ -7,7 +7,7 @@ import { Label } from '@/Components/ui/label';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCreditCardPay, IconRoute } from '@tabler/icons-react';
+import { IconArrowLeft, IconRoute } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Create(props) {

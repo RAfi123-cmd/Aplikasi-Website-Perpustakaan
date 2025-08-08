@@ -5,20 +5,17 @@ import { Button } from '@/Components/ui/button';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
-import { Textarea } from '@/Components/ui/textarea';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCategory, IconCircleKey, IconKeyframe } from '@tabler/icons-react';
-import { useRef, useState } from 'react';
+import { IconArrowLeft, IconKeyframe } from '@tabler/icons-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Edit(props) {
-
     const [selectedPermissions, setSelectedPermissions] = useState(
-        Array.from(new Set(props.role.permissions.map((permissions) => permissions.id)))
-    )
+        Array.from(new Set(props.role.permissions.map((permissions) => permissions.id))),
+    );
 
     const { data, setData, reset, post, processing, errors } = useForm({
         name: props.role.name ?? '',
@@ -31,8 +28,7 @@ export default function Edit(props) {
     const handlePermissionChange = (selected) => {
         setSelectedPermissions(selected);
         setData('permissions', selected);
-
-    }
+    };
 
     const onHandleSubmit = (e) => {
         e.preventDefault();
@@ -90,11 +86,10 @@ export default function Edit(props) {
                                 defaultValue={selectedPermissions}
                                 placeholder="Pilih izin"
                                 variant="inverted"
-
                             />
                             {errors.permissions && <InputError message={errors.permissions} />}
                         </div>
-                        
+
                         <div className="flex justify-end gap-x-2">
                             <Button type="button" variant="ghost" size="lg" onClick={onHandleReset}>
                                 Reset

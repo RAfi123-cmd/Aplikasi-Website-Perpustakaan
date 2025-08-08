@@ -1,16 +1,4 @@
 import HeaderTitle from '@/Components/HeaderTitle';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/Components/ui/alert-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Badge } from '@/Components/ui/badge';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
@@ -20,11 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import { UseFilter } from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
-import { flashMessage } from '@/lib/utils';
-import { Link, router } from '@inertiajs/react';
-import { IconArrowsDownUp, IconCategory, IconCircleKey, IconKeyframe, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
+import { Link } from '@inertiajs/react';
+import { IconArrowsDownUp, IconKeyframe, IconRefresh } from '@tabler/icons-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 export default function Index(props) {
     const { data: roles, meta } = props.roles;
@@ -51,7 +37,6 @@ export default function Index(props) {
                     subtitle={props.page_settings.subtitle}
                     icon={IconKeyframe}
                 />
-                
             </div>
             <Card>
                 <CardHeader>
@@ -108,8 +93,7 @@ export default function Index(props) {
                                         </span>
                                     </Button>
                                 </TableHead>
-                                
-                                
+
                                 <TableHead>Permissions</TableHead>
                                 <TableHead>Aksi</TableHead>
                             </TableRow>
@@ -122,8 +106,8 @@ export default function Index(props) {
                                     <TableCell>{role.name}</TableCell>
                                     <TableCell>
                                         {role.permissions.map((permission, index) => (
-                                            <span className='w-auto text-wrap' key={index}>
-                                                <Badge variant='outline' className='my-0.5 mr-2'>
+                                            <span className="w-auto text-wrap" key={index}>
+                                                <Badge variant="outline" className="my-0.5 mr-2">
                                                     {permission}
                                                 </Badge>
                                             </span>
@@ -136,7 +120,6 @@ export default function Index(props) {
                                                     <IconRefresh className="size-4" />
                                                 </Link>
                                             </Button>
-                                            
                                         </div>
                                     </TableCell>
                                 </TableRow>

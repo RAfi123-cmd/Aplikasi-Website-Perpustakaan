@@ -10,7 +10,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/Components/ui/alert-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
@@ -21,7 +20,7 @@ import { UseFilter } from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
-import { IconArrowsDownUp, IconCategory, IconCircleKey, IconPencil, IconPlus, IconRefresh, IconRoute, IconTrash } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconRoute, IconTrash } from '@tabler/icons-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -189,14 +188,17 @@ export default function Index(props) {
                                                         <AlertDialogAction
                                                             onClick={() =>
                                                                 router.delete(
-                                                                    route('admin.route-accesses.destroy', [route_access]), {
+                                                                    route('admin.route-accesses.destroy', [
+                                                                        route_access,
+                                                                    ]),
+                                                                    {
                                                                         preserveScroll: true,
                                                                         preserveState: true,
                                                                         onSuccess: (success) => {
                                                                             const flash = flashMessage(success);
-                                                                            if(flash) toast[flash.type](flash.message);
-                                                                        }
-                                                                    }
+                                                                            if (flash) toast[flash.type](flash.message);
+                                                                        },
+                                                                    },
                                                                 )
                                                             }
                                                         >
