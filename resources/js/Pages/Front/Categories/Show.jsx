@@ -1,11 +1,8 @@
 import BookCard from '@/Components/BookCard';
-import CategoryCard from '@/Components/CategoryCard';
 import HeaderTitle from '@/Components/HeaderTitle';
-import { Button } from '@/Components/ui/button';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/Components/ui/pagination';
 import AppLayout from '@/Layouts/AppLayout';
-import { Link } from '@inertiajs/react';
-import { IconBooks, IconCategory } from '@tabler/icons-react';
+import { IconCategory } from '@tabler/icons-react';
 
 export default function Index(props) {
     const { data: books, meta } = props.books;
@@ -19,9 +16,9 @@ export default function Index(props) {
                 />
             </div>
 
-            <div className='grid gap-4 py-10 md:gap-8 lg:grid-cols-4'>
+            <div className="grid gap-4 py-10 md:gap-8 lg:grid-cols-4">
                 {books.map((book, index) => (
-                    <BookCard key={index} item={book}/>
+                    <BookCard key={index} item={book} />
                 ))}
             </div>
 
@@ -38,7 +35,6 @@ export default function Index(props) {
                     </PaginationContent>
                 </Pagination>
             )}
-            
         </div>
     );
 }
