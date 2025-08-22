@@ -59,7 +59,7 @@ class LoanController extends Controller
             'page_data' => [
                 'date' => [
                     'loan_date' => Carbon::now()->toDateString(),
-                    'duo_date' => Carbon::now()->addDays(7)->toDateString(),
+                    'due_date' => Carbon::now()->addDays(7)->toDateString(),
                 ],
                 'books' => Book::query()
                     ->select(['id', 'title'])
@@ -130,7 +130,7 @@ class LoanController extends Controller
             'page_data' => [
                 'date' => [
                     'loan_date' => Carbon::now()->toDateString(),
-                    'duo_date' => Carbon::now()->addDays(7)->toDateString(),
+                    'due_date' => Carbon::now()->addDays(7)->toDateString(),
                 ],
                 'books' => Book::query()
                     ->select(['id', 'title'])
