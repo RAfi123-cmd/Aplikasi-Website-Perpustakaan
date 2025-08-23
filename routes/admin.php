@@ -19,7 +19,7 @@ use App\Http\Controllers\Admin\RouteAccessController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'role:admin|operator'])->prefix('admin')->group(function() {
+Route::middleware(['auth', 'dynamic.role_permission'])->prefix('admin')->group(function() {
 
     Route::controller(LoanStatisticController::class)->group(function(){
         Route::get('loan-statistics', 'index')->name('admin.loan-statistics.index');
