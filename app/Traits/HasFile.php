@@ -20,7 +20,7 @@ trait HasFile
                 Storage::delete($model->$column);
             }
             $thumbnail = $request->file($column)->store($folder);
-        }else{
+        } else {
             $thumbnail = $model->$column;
         }
 

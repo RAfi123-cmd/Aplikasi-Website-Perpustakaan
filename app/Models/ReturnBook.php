@@ -17,17 +17,8 @@ class ReturnBook extends Model
         'user_id',
         'book_id',
         'return_date',
-        'status'
+        'status',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'return_date'  => 'date',
-
-            'status' => ReturnBookStatus::class,
-        ];
-    }
 
     public function loan(): BelongsTo
     {
@@ -56,24 +47,24 @@ class ReturnBook extends Model
 
     public function scopeFilter(Builder $query, array $filters): void
     {
-        $query->when($filters['search'] ?? null, function($query, $search){
-            $query->where(function($query) use($search){
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
                 $query->whereAny([
                     'return_book_code',
                     'status',
                 ], 'REGEXP', $search);
             })
-                ->orWhereHas('loan', fn($query) => $query->where('loan_code', 'REGEXP', $search))
-                ->orWhereHas('user', fn($query) => $query->where('name', 'REGEXP', $search))
-                ->orWhereHas('book', fn($query) => $query->where('title', 'REGEXP', $search));
+                ->orWhereHas('loan', fn ($query) => $query->where('loan_code', 'REGEXP', $search))
+                ->orWhereHas('user', fn ($query) => $query->where('name', 'REGEXP', $search))
+                ->orWhereHas('book', fn ($query) => $query->where('title', 'REGEXP', $search));
         });
     }
 
     public function scopeSorting(Builder $query, array $sorts): void
     {
-        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function($query) use($sorts){
+        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function ($query) use ($sorts) {
             match ($sorts['field']) {
-                'loan_code' => $query->whereHas('loan', fn($query) => $query->orderBy('loan_code', $sorts['direction'])),
+                'loan_code' => $query->whereHas('loan', fn ($query) => $query->orderBy('loan_code', $sorts['direction'])),
                 default => $query->orderBy($sorts['field'], $sorts['direction']),
             };
         });
@@ -109,5 +100,12 @@ class ReturnBook extends Model
         return max(0, Carbon::parse($this->loan->loan_date)->diffInDays(Carbon::parse($this->return_date)));
     }
 
-    
+    protected function casts(): array
+    {
+        return [
+            'return_date' => 'date',
+
+            'status' => ReturnBookStatus::class,
+        ];
+    }
 }

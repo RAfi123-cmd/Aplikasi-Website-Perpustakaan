@@ -47,7 +47,7 @@ class StockRequest extends FormRequest
 
     public function attributes(): array
     {
-        return  [
+        return [
             'total' => 'Total',
             'available' => 'Tersedia',
             'loan' => 'Dipinjam',

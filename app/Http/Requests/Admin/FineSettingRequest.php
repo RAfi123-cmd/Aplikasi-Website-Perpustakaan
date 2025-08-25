@@ -24,15 +24,15 @@ class FineSettingRequest extends FormRequest
         return [
             'late_fee_per_day' => [
                 'required',
-                'numeric'
+                'numeric',
             ],
             'damage_fee_percentage' => [
                 'required',
-                'numeric'
+                'numeric',
             ],
             'lost_fee_percentage' => [
                 'required',
-                'numeric'
+                'numeric',
             ],
         ];
     }

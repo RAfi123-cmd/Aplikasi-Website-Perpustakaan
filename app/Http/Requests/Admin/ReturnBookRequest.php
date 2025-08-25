@@ -27,7 +27,7 @@ class ReturnBookRequest extends FormRequest
             'condition' => [
                 'required',
                 new Enum(ReturnBookCondition::class),
-            ]
+            ],
         ];
     }
 

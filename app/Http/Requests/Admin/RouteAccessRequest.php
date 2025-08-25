@@ -22,21 +22,21 @@ class RouteAccessRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'route_name' =>  [
-                'required'
+            'route_name' => [
+                'required',
             ],
             'role' => [
                 'nullable',
-                'exists:roles,name'
+                'exists:roles,name',
             ],
             'permission' => [
                 'nullable',
-                'exists:permissions,name'
+                'exists:permissions,name',
             ],
         ];
     }
 
-    public function attributes():  array
+    public function attributes(): array
     {
         return [
             'route_name' => 'Rute',

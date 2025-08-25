@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FineSettingRequest;
-use App\Http\Requests\Admin\FineSttingRequest;
 use App\Models\FineSetting;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 
 class FineSettingController extends Controller
@@ -23,7 +21,7 @@ class FineSettingController extends Controller
                 'method' => 'PUT',
                 'action' => route('admin.fine-settings.store'),
             ],
-            'fine_setting' => $fine_setting, 
+            'fine_setting' => $fine_setting,
         ]);
     }
 
@@ -38,6 +36,7 @@ class FineSettingController extends Controller
             ]
         );
         flashMessage('Berhasil melakukan perubahan pengaturan denda');
+
         return to_route('admin.fine-settings.create');
     }
 }

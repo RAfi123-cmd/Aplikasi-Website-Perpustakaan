@@ -25,7 +25,7 @@ class ReturnFineSingleResource extends JsonResource
                 'title' => $this->book?->title,
             ]),
             'fine' => $this->whenLoaded('fine', [
-                'id' =>  $this->fine?->id,
+                'id' => $this->fine?->id,
                 'late_fee' => $this->fine?->late_fee,
                 'other_fee' => $this->fine?->other_fee,
                 'total_fee' => $this->fine?->total_fee,

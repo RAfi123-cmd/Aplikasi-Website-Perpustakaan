@@ -10,7 +10,6 @@ use App\Http\Resources\Admin\UserResource;
 use App\Models\User;
 use App\Traits\HasFile;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Response;
 use Throwable;
@@ -18,14 +17,15 @@ use Throwable;
 class UserController extends Controller
 {
     use HasFile;
+
     public function index(): Response
     {
         $users = User::query()
-        ->select(['id', 'name', 'username', 'email', 'phone', 'avatar', 'gender', 'date_of_birth', 'address', 'created_at'])
-        ->filter(request()->only(['search']))
-        ->sorting(request()->only(['field', 'direction']))
-        ->paginate(request()->load ?? 10)
-        ->withQueryString();
+            ->select(['id', 'name', 'username', 'email', 'phone', 'avatar', 'gender', 'date_of_birth', 'address', 'created_at'])
+            ->filter(request()->only(['search']))
+            ->sorting(request()->only(['field', 'direction']))
+            ->paginate(request()->load ?? 10)
+            ->withQueryString();
 
         return inertia('Admin/Users/Index', [
             'page_settings' => [
@@ -54,15 +54,15 @@ class UserController extends Controller
                 'method' => 'POST',
                 'action' => route('admin.users.store'),
             ],
-            'genders' =>  UserGender::options(),
+            'genders' => UserGender::options(),
         ]);
     }
 
-    public function  store(UserRequest $request): RedirectResponse
+    public function store(UserRequest $request): RedirectResponse
     {
         try {
             $user = User::create([
-                'name'  => $name = $request->name,
+                'name' => $name = $request->name,
                 'username' => usernameGenerator($name),
                 'email' => $request->email,
                 'password' => Hash::make(request()->password),
@@ -74,9 +74,11 @@ class UserController extends Controller
             ]);
 
             flashMessage(MessageType::CREATED->message('Pengguna'));
+
             return to_route('admin.users.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
+
             return to_route('admin.users.index');
         }
     }
@@ -90,16 +92,16 @@ class UserController extends Controller
                 'method' => 'PUT',
                 'action' => route('admin.users.update', $user),
             ],
-            'genders' =>  UserGender::options(),
+            'genders' => UserGender::options(),
             'user' => $user,
         ]);
     }
 
-    public function  update(User $user, UserRequest $request): RedirectResponse
+    public function update(User $user, UserRequest $request): RedirectResponse
     {
         try {
             $user->update([
-                'name'  => $name = $request->name,
+                'name' => $name = $request->name,
                 'username' => usernameGenerator($name),
                 'email' => $request->email,
                 'password' => Hash::make(request()->password),
@@ -111,13 +113,14 @@ class UserController extends Controller
             ]);
 
             flashMessage(MessageType::UPDATED->message('Pengguna'));
+
             return to_route('admin.users.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
+
             return to_route('admin.users.index');
         }
     }
-
 
     public function destroy(User $user): RedirectResponse
     {
@@ -130,6 +133,7 @@ class UserController extends Controller
             return to_route('admin.users.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
+
             return to_route('admin.users.index');
         }
     }

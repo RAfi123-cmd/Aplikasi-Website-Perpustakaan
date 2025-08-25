@@ -13,25 +13,25 @@ use App\Models\Category;
 use App\Models\Publisher;
 use App\Traits\HasFile;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 use Throwable;
 
 class BookController extends Controller
 {
     use HasFile;
+
     public function index(): Response
     {
         $books = Book::query()
-        ->select(['id', 'book_code', 'title', 'slug', 'author', 'publication_year', 'isbn', 'language', 'number_of_pages', 'status',
-        'price', 'category_id', 'publisher_id', 'created_at'])
-        ->filter(request()->only(['search']))
-        ->sorting(request()->only(['field', 'direction']))
+            ->select(['id', 'book_code', 'title', 'slug', 'author', 'publication_year', 'isbn', 'language', 'number_of_pages', 'status',
+                'price', 'category_id', 'publisher_id', 'created_at'])
+            ->filter(request()->only(['search']))
+            ->sorting(request()->only(['field', 'direction']))
         // supaya terhindar dari N+1 query jika menambahkan data relasi maka  mennggunakan ini
-        ->with(['category', 'stock', 'publisher'])
-        ->latest('created_at')
-        ->paginate(request()->load ?? 10)
-        ->withQueryString();
+            ->with(['category', 'stock', 'publisher'])
+            ->latest('created_at')
+            ->paginate(request()->load ?? 10)
+            ->withQueryString();
 
         return inertia('Admin/Books/Index', [
             'page_settings' => [
@@ -43,7 +43,7 @@ class BookController extends Controller
                     'has_pages' => $books->hasPages(),
                 ],
             ]),
-            'state' =>  [
+            'state' => [
                 'page' => request()->page ?? 1,
                 'search' => request()->search ?? '',
                 'load' => 10,
@@ -63,29 +63,29 @@ class BookController extends Controller
             'page_data' => [
                 'publicationYears' => range(2000, now()->year),
                 'languages' => BookLanguage::options(),
-                'categories' => Category::query()->select(['id', 'name'])->get()->map(fn($item)  => [
+                'categories' => Category::query()->select(['id', 'name'])->get()->map(fn ($item) => [
                     'value' => $item->id,
                     'label' => $item->name,
                 ]),
-                'publishers' => Publisher::query()->select(['id', 'name'])->get()->map(fn($item)  => [
+                'publishers' => Publisher::query()->select(['id', 'name'])->get()->map(fn ($item) => [
                     'value' => $item->id,
                     'label' => $item->name,
                 ]),
 
-            ]
+            ],
         ]);
     }
 
     public function store(BookRequest $request): RedirectResponse
     {
-        try{
+        try {
             $book = Book::create([
                 'book_code' => $this->bookCode(
                     $request->publication_year,
                     $request->category_id,
                 ),
                 'title' => $title = $request->title,
-                'slug' => str()->lower(str()->slug($title). str()->random(4)),
+                'slug' => str()->lower(str()->slug($title) . str()->random(4)),
                 'author' => $request->author,
                 'publication_year' => $request->publication_year,
                 'isbn' => $request->isbn,
@@ -93,18 +93,18 @@ class BookController extends Controller
                 'synopsis' => $request->synopsis,
                 'number_of_pages' => $request->number_of_pages,
                 'status' => $request->total > 0 ? BookStatus::AVAILABLE->value : BookStatus::UNAVAILABLE->value,
-                'cover' =>  $this->upload_file($request, 'cover', 'books'),
+                'cover' => $this->upload_file($request, 'cover', 'books'),
                 'price' => $request->price,
                 'category_id' => $request->category_id,
-                'publisher_id' => $request->publisher_id, 
+                'publisher_id' => $request->publisher_id,
             ]);
 
-            
-            
             flashMessage(MessageType::CREATED->message('Buku'));
+
             return to_route('admin.books.index');
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.books.index');
         }
     }
@@ -122,29 +122,29 @@ class BookController extends Controller
             'page_data' => [
                 'publicationYears' => range(2000, now()->year),
                 'languages' => BookLanguage::options(),
-                'categories' => Category::query()->select(['id', 'name'])->get()->map(fn($item)  => [
+                'categories' => Category::query()->select(['id', 'name'])->get()->map(fn ($item) => [
                     'value' => $item->id,
                     'label' => $item->name,
                 ]),
-                'publishers' => Publisher::query()->select(['id', 'name'])->get()->map(fn($item)  => [
+                'publishers' => Publisher::query()->select(['id', 'name'])->get()->map(fn ($item) => [
                     'value' => $item->id,
                     'label' => $item->name,
                 ]),
 
-            ]
+            ],
         ]);
     }
 
     public function update(Book $book, BookRequest $request): RedirectResponse
     {
-        try{
+        try {
             $book->update([
                 'book_code' => $this->bookCode(
                     $request->publication_year,
                     $request->category_id,
                 ),
                 'title' => $title = $request->title,
-                'slug' => $title !== $book->title ? str()->lower(str()->slug($title). str()->random(4)) : $book->slug,
+                'slug' => $title !== $book->title ? str()->lower(str()->slug($title) . str()->random(4)) : $book->slug,
                 'author' => $request->author,
                 'publication_year' => $request->publication_year,
                 'isbn' => $request->isbn,
@@ -152,18 +152,18 @@ class BookController extends Controller
                 'synopsis' => $request->synopsis,
                 'number_of_pages' => $request->number_of_pages,
                 'status' => $request->total > 0 ? BookStatus::AVAILABLE->value : BookStatus::UNAVAILABLE->value,
-                'cover' =>  $this->update_file($request, $book, 'cover', 'books'),
+                'cover' => $this->update_file($request, $book, 'cover', 'books'),
                 'price' => $request->price,
                 'category_id' => $request->category_id,
-                'publisher_id' => $request->publisher_id, 
+                'publisher_id' => $request->publisher_id,
             ]);
 
-            
-            
             flashMessage(MessageType::UPDATED->message('Buku'));
+
             return to_route('admin.books.index');
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.books.index');
         }
     }
@@ -176,10 +176,12 @@ class BookController extends Controller
             $book->delete();
 
             flashMessage(MessageType::DELETED->message('buku'));
+
             return to_route('admin.books.index');
 
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.books.index');
         }
     }
@@ -203,6 +205,7 @@ class BookController extends Controller
         }
 
         $ordering = str_pad($order, 4, '0', STR_PAD_LEFT);
+
         return $book_code_prefix . $ordering;
     }
 }

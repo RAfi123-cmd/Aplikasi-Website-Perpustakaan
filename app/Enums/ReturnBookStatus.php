@@ -1,22 +1,20 @@
 <?php
 
-
 namespace App\Enums;
-
 
 enum ReturnBookStatus: string
 {
-    case RETURNED = "Dikembalikan";
+    case RETURNED = 'Dikembalikan';
 
-    case CHECKED = "Pengecekan";
+    case CHECKED = 'Pengecekan';
 
-    case FINE = "Denda";
+    case FINE = 'Denda';
 
     public static function options(): array
     {
-        return collect(self::cases())->map(fn($item) => [
+        return collect(self::cases())->map(fn ($item) => [
             'value' => $item->value,
-            'label' => $item->label
+            'label' => $item->label,
         ])->values()->toArray();
     }
 }

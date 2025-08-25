@@ -10,7 +10,6 @@ use App\Models\Loan;
 use App\Models\ReturnBook;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Inertia\Response;
 
 class DashboardController extends Controller
@@ -19,9 +18,9 @@ class DashboardController extends Controller
     {
         $loans = Loan::query()
             ->select(['id', 'loan_code', 'book_id', 'user_id', 'created_at'])
-            ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function($query) {
+            ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function ($query) {
                 return $query;
-            }, function($query) {
+            }, function ($query) {
                 return $query->where('user_id', auth()->user()->id);
             })
             ->latest('created_at')
@@ -32,16 +31,17 @@ class DashboardController extends Controller
             ->select(['id', 'return_book_code', 'book_id', 'user_id', 'created_at'])
             ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function ($query) {
                 return $query;
-            }, function($query) {
+            }, function ($query) {
                 return $query->where('user_id', auth()->user()->id);
             })
             ->latest('created_at')
             ->limit(5)
             ->with(['user', 'book'])
             ->get();
+
         return inertia('Dashboard', [
             'page_settings' => [
-                'title' =>  'Dashboard',
+                'title' => 'Dashboard',
                 'subtitle' => 'Menampilkan semua statistik pada platform ini.',
             ],
             'page_data' => [
@@ -51,21 +51,21 @@ class DashboardController extends Controller
                 'total_books' => auth()->user()->hasAnyRole(['admin', 'operator']) ? Book::count() : 0,
                 'total_users' => auth()->user()->hasAnyRole(['admin', 'operator']) ? User::count() : 0,
                 'total_loans' => Loan::query()
-                    ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function($query){
+                    ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function ($query) {
                         return $query;
-                    }, function($query){
+                    }, function ($query) {
                         return $query->where('user_id', auth()->user()->id);
                     })->count(),
                 'total_returns' => ReturnBook::query()
-                    ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function($query){
+                    ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function ($query) {
                         return $query;
-                    }, function($query){
+                    }, function ($query) {
                         return $query->where('user_id', auth()->user()->id);
                     })->count(),
                 'total_fines' => auth()->user()->hasRole('member') ? Fine::query()
                     ->where('user_id', auth()->user()->id)
-                    ->sum('total_fee') : 0
-                ],
+                    ->sum('total_fee') : 0,
+            ],
         ]);
     }
 
@@ -75,12 +75,11 @@ class DashboardController extends Controller
 
         $start_date = $end_date->copy()->subMonth()->startOfMonth();
 
-
         $loans = Loan::query()
             ->selectRaw('DATE(loan_date) as date, COUNT(*) as loan')
-            ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function($query){
+            ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function ($query) {
                 return $query;
-            }, function($query){
+            }, function ($query) {
                 return $query->where('user_id', auth()->user()->id);
             })
             ->whereBetween('loan_date', [$start_date, $end_date])
@@ -89,9 +88,9 @@ class DashboardController extends Controller
             ->pluck('loan', 'date');
         $return_books = ReturnBook::query()
             ->selectRaw('DATE(return_date) as date, COUNT(*) as returns')
-            ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function($query){
+            ->when(auth()->user()->hasAnyRole(['admin', 'operator']), function ($query) {
                 return $query;
-            }, function($query){
+            }, function ($query) {
                 return $query->where('user_id', auth()->user()->id);
             })
             ->whereNotNull('return_date')
@@ -99,7 +98,6 @@ class DashboardController extends Controller
             ->groupBy('date')
             ->orderBy('date')
             ->pluck('returns', 'date');
-        
 
         $charts = [];
 

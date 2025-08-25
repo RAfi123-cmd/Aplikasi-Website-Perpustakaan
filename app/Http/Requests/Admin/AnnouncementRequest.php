@@ -26,7 +26,7 @@ class AnnouncementRequest extends FormRequest
                 'required',
                 'min:3',
                 'max:255',
-                'string'
+                'string',
             ],
             'url' => [
                 'nullable',
@@ -35,7 +35,7 @@ class AnnouncementRequest extends FormRequest
             ],
             'is_active' => [
                 'required',
-                'boolean'
+                'boolean',
             ],
         ];
     }

@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\RouteAccessRequest;
 use App\Http\Resources\Admin\RouteAccessResource;
 use App\Models\RouteAccess;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
@@ -27,7 +26,7 @@ class RouteAccessController extends Controller
             ->paginate(request()->load ?? 10)
             ->withQueryString();
 
-        return inertia ('Admin/RouteAccesses/Index', [
+        return inertia('Admin/RouteAccesses/Index', [
             'page_settings' => [
                 'title' => 'Akses Rute',
                 'subtitle' => 'Menampilkan semua data akses rute pada paltform ini.',
@@ -54,15 +53,15 @@ class RouteAccessController extends Controller
                 'method' => 'POST',
                 'action' => route('admin.route-accesses.store'),
             ],
-            'roles' => Role::query()->select(['id', 'name'])->where('guard_name', 'web')->get()->map(fn($item) =>  [
+            'roles' => Role::query()->select(['id', 'name'])->where('guard_name', 'web')->get()->map(fn ($item) => [
                 'value' => $item->name,
                 'label' => $item->name,
             ]),
-            'permissions' => Permission::query()->select(['id', 'name'])->where('guard_name', 'web')->get()->map(fn($item) =>  [
+            'permissions' => Permission::query()->select(['id', 'name'])->where('guard_name', 'web')->get()->map(fn ($item) => [
                 'value' => $item->name,
                 'label' => $item->name,
             ]),
-            'routes' => collect(Route::getRoutes())->map(function($route) {
+            'routes' => collect(Route::getRoutes())->map(function ($route) {
                 return [
                     'value' => $route->getName(),
                     'label' => $route->getName(),
@@ -74,9 +73,8 @@ class RouteAccessController extends Controller
     public function store(RouteAccessRequest $request): RedirectResponse
     {
         try {
-            $role = Role::query()->where('name',$request->role)->first();
-            $permission = Permission::query()->where('name',$request->permission)->first();
-
+            $role = Role::query()->where('name', $request->role)->first();
+            $permission = Permission::query()->where('name', $request->permission)->first();
 
             RouteAccess::create([
                 'route_name' => $request->route_name,
@@ -85,9 +83,11 @@ class RouteAccessController extends Controller
             ]);
 
             flashMessage(MessageType::CREATED->message('akses rute'));
+
             return to_route('admin.route-accesses.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.route-accesses.index');
         }
     }
@@ -101,15 +101,15 @@ class RouteAccessController extends Controller
                 'method' => 'PUT',
                 'action' => route('admin.route-accesses.update', $routeAccess),
             ],
-            'roles' => Role::query()->select(['id', 'name'])->where('guard_name', 'web')->get()->map(fn($item) =>  [
+            'roles' => Role::query()->select(['id', 'name'])->where('guard_name', 'web')->get()->map(fn ($item) => [
                 'value' => $item->name,
                 'label' => $item->name,
             ]),
-            'permissions' => Permission::query()->select(['id', 'name'])->where('guard_name', 'web')->get()->map(fn($item) =>  [
+            'permissions' => Permission::query()->select(['id', 'name'])->where('guard_name', 'web')->get()->map(fn ($item) => [
                 'value' => $item->name,
                 'label' => $item->name,
             ]),
-            'routes' => collect(Route::getRoutes())->map(function($route) {
+            'routes' => collect(Route::getRoutes())->map(function ($route) {
                 return [
                     'value' => $route->getName(),
                     'label' => $route->getName(),
@@ -122,9 +122,8 @@ class RouteAccessController extends Controller
     public function update(RouteAccess $routeAccess, RouteAccessRequest $request): RedirectResponse
     {
         try {
-            $role = Role::query()->where('name',$request->role)->first();
-            $permission = Permission::query()->where('name',$request->permission)->first();
-
+            $role = Role::query()->where('name', $request->role)->first();
+            $permission = Permission::query()->where('name', $request->permission)->first();
 
             $routeAccess->update([
                 'route_name' => $request->route_name,
@@ -133,9 +132,11 @@ class RouteAccessController extends Controller
             ]);
 
             flashMessage(MessageType::UPDATED->message('akses rute'));
+
             return to_route('admin.route-accesses.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.route-accesses.index');
         }
     }
@@ -146,9 +147,11 @@ class RouteAccessController extends Controller
             $routeAccess->delete();
 
             flashMessage(MessageType::DELETED->message('akses rute'));
+
             return to_route('admin.route-accesses.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.route-accesses.index');
         }
     }

@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         Vite::prefetch(concurrency: 3);
         JsonResource::withoutWrapping();
 
-        if (!App::environment([
+        if (! App::environment([
             'local',
             'testing',
         ])) {

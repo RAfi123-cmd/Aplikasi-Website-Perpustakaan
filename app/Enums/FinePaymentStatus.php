@@ -4,17 +4,17 @@ namespace App\Enums;
 
 enum FinePaymentStatus: string
 {
-    case PENDING = "Tertunda";
+    case PENDING = 'Tertunda';
 
-    case SUCCESS = "Sukses";
+    case SUCCESS = 'Sukses';
 
-    case FAILED = "Gagal";
+    case FAILED = 'Gagal';
 
     public static function options(): array
     {
-        return collect(self::cases())->map(fn($item) => [
+        return collect(self::cases())->map(fn ($item) => [
             'value' => $item->value,
-            'label' => $item->value,            
+            'label' => $item->value,
         ])->values()->toArray();
     }
 }

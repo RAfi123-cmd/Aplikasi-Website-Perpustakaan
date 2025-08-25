@@ -16,7 +16,7 @@ class DynamicRoleAndPermissionMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -36,14 +36,14 @@ class DynamicRoleAndPermissionMiddleware
                 }
             }
 
-            if($isAuthorized){
+            if ($isAuthorized) {
                 return $next($request);
-            }else {
+            } else {
                 throw UnauthorizedException::forRolesOrPermissions(
-                    $routeAccess->pluck('role_id')->filter()->map(function($roleId){
+                    $routeAccess->pluck('role_id')->filter()->map(function ($roleId) {
                         return Role::find($roleId)->name;
                     })->all(),
-                    $routeAccess->pluck('permission_id')->filter()->map(function($permissionId){
+                    $routeAccess->pluck('permission_id')->filter()->map(function ($permissionId) {
                         return Permission::find($permissionId)->name;
                     })->all(),
                 );
@@ -51,6 +51,7 @@ class DynamicRoleAndPermissionMiddleware
         } else {
             throw UnauthorizedException::forRolesOrPermissions([], []);
         }
+
         return $next($request);
     }
 }

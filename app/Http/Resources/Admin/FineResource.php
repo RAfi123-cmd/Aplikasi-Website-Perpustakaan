@@ -16,7 +16,7 @@ class FineResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' =>  $this->id,
+            'id' => $this->id,
             'late_fee' => $this->late_fee,
             'other_fee' => $this->other_fee,
             'total_fee' => $this->total_fee,
@@ -34,7 +34,7 @@ class FineResource extends JsonResource
             'user' => [
                 'id' => $this->user?->id,
                 'name' => $this->user?->name,
-            ]
+            ],
         ];
     }
 }

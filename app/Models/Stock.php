@@ -14,7 +14,7 @@ class Stock extends Model
         'available',
         'loan',
         'lost',
-        'damaged'
+        'damaged',
     ];
 
     public function book(): BelongsTo
@@ -24,16 +24,17 @@ class Stock extends Model
 
     public function scopeFilter(Builder $query, array $filters): void
     {
-        $query->when($filters['search'] ?? null, function($query, $search){
-            $query->where(function($query) use($search){
-                $query->whereHas('book', fn($query) => $query->where('title', 'REGEXP', $search));
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->whereHas('book', fn ($query) => $query->where('title', 'REGEXP', $search));
             });
         });
     }
 
-    public function scopeSorting(Builder $query, array $sorts): void{
-        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function($query) use($sorts){
-            match($sorts['field']){
+    public function scopeSorting(Builder $query, array $sorts): void
+    {
+        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function ($query) use ($sorts) {
+            match ($sorts['field']) {
                 'book_id' => $query->join('books', 'stocks.book_id', '=', 'books_id')
                     ->orderBy('books.title', $sorts['direction']),
                 default => $query->orderBy($sorts['field'], $sorts['direction']),

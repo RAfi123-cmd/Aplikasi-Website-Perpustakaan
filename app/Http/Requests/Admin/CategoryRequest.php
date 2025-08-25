@@ -22,11 +22,11 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' =>  [
+            'name' => [
                 'required',
                 'string',
                 'min:3',
-                'max:255'
+                'max:255',
             ],
             'description' => [
                 'nullable',
@@ -34,7 +34,7 @@ class CategoryRequest extends FormRequest
             'cover' => [
                 'nullable',
                 'mimes:png,jpg,jpeg,webp',
-                'max:2048'
+                'max:2048',
             ],
         ];
     }
@@ -44,7 +44,7 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'Nama',
             'description' => 'Deskripsi',
-            'cover' =>  'Cover'
+            'cover' => 'Cover',
         ];
     }
 }

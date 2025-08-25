@@ -15,14 +15,27 @@ class Loan extends Model
         'user_id',
         'book_id',
         'loan_date',
-        'due_date'
+        'due_date',
     ];
 
-    protected function casts(): array
+    public static function checkLoanBook(int $user_id, int $book_id): bool
+    {
+        return self::query()
+            ->where('user_id', $user_id)
+            ->where('book_id', $book_id)
+            ->whereDoesntHave('returnBook', fn ($query) => $query->where('user_id', $user_id))
+            ->exists();
+    }
+
+    public static function totalLoanBooks(): array
     {
         return [
-            'loan_date' => 'date',
-            'due_date' => 'date',
+            'days' => self::whereDate('created_at', Carbon::now()->toDateString())->count(),
+            'weeks' => self::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count(),
+            'months' => self::whereMonth('created_at', Carbon::now()->month)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->count(),
+            'years' => self::whereYear('created_at', Carbon::now()->year)->count(),
         ];
     }
 
@@ -41,10 +54,10 @@ class Loan extends Model
         return $this->hasOne(ReturnBook::class);
     }
 
-    public function  scopeFilter(Builder $query, array $filters): void
+    public function scopeFilter(Builder $query, array $filters): void
     {
-        $query->when($filters['search'] ?? null, function($query, $search) {
-            $query->where(function($query) use($search){
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
                 $query->whereAny([
                     'loan_code',
                     'loan_date',
@@ -54,31 +67,18 @@ class Loan extends Model
         });
     }
 
-    public function  scopeSorting(Builder $query, array $sorts): void
+    public function scopeSorting(Builder $query, array $sorts): void
     {
-        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function($query) use($sorts) {
+        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function ($query) use ($sorts) {
             $query->orderBy($sorts['field'], $sorts['direction']);
         });
     }
 
-    public static function checkLoanBook(int $user_id, int $book_id): bool
-    {
-        return self::query()
-            ->where('user_id', $user_id)
-            ->where('book_id', $book_id)
-            ->whereDoesntHave('returnBook', fn($query) => $query->where('user_id', $user_id))
-            ->exists();
-    }
-
-    public static function totalLoanBooks(): array
+    protected function casts(): array
     {
         return [
-            'days' => self::whereDate('created_at', Carbon::now()->toDateString())->count(),
-            'weeks' => self::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count(),
-            'months' => self::whereMonth('created_at', Carbon::now()->month)
-                ->whereYear('created_at', Carbon::now()->year)
-                ->count(),
-            'years' => self::whereYear('created_at', Carbon::now()->year)->count(),
+            'loan_date' => 'date',
+            'due_date' => 'date',
         ];
     }
 }

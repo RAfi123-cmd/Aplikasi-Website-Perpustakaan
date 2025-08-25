@@ -2,21 +2,21 @@
 
 namespace App\Enums;
 
-enum BookStatus: string 
+enum BookStatus: string
 {
-    case AVAILABLE = "Tersedia";
+    case AVAILABLE = 'Tersedia';
 
-    case UNAVAILABLE = "Tidak Tersedia";
+    case UNAVAILABLE = 'Tidak Tersedia';
 
-    case LOAN = "Dipinjam";
+    case LOAN = 'Dipinjam';
 
-    case LOST = "Hilang";
+    case LOST = 'Hilang';
 
-    case DAMAGED = "Rusak";
+    case DAMAGED = 'Rusak';
 
     public static function options(): array
     {
-        return collect(self::cases())->map(fn($item) => [
+        return collect(self::cases())->map(fn ($item) => [
             'value' => $item->value,
             'label' => $item->name,
         ])->values()->toArray();

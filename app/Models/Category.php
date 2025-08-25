@@ -9,14 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-
     use HasFactory;
 
     protected $fillable = [
         'name',
         'slug',
         'description',
-        'cover'
+        'cover',
     ];
 
     public function books(): HasMany
@@ -26,11 +25,11 @@ class Category extends Model
 
     public function scopeFilter(Builder $query, array $filters): void
     {
-        $query->when($filters['search'] ?? null, function($query, $seacrh) {
-            $query->where(function($query) use($seacrh) {
+        $query->when($filters['search'] ?? null, function ($query, $seacrh) {
+            $query->where(function ($query) use ($seacrh) {
                 $query->whereAny([
                     'name',
-                    'slug'
+                    'slug',
                 ], 'REGEXP', $seacrh);
             });
         });

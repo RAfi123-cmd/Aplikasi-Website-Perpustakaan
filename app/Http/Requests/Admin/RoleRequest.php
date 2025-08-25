@@ -33,7 +33,7 @@ class RoleRequest extends FormRequest
                 'nullable',
                 'in:web,api',
 
-            ]
+            ],
         ];
     }
 

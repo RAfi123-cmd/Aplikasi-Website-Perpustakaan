@@ -9,33 +9,34 @@ use App\Http\Resources\Admin\PublisherResource;
 use App\Models\Publisher;
 use App\Traits\HasFile;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 use Throwable;
 
 class PublisherController extends Controller
 {
     use HasFile;
+
     public function index(): Response
     {
         $publishers = Publisher::query()
-        -> select(['id', 'name', 'slug', 'address', 'email', 'phone', 'created_at'])
-        ->filter(request()->only(['search']))
-        ->sorting(request()->only(['field', 'direction']))
-        ->latest('created_at')
-        ->paginate(request()->load ?? 10)
-        ->withQueryString();
+            ->select(['id', 'name', 'slug', 'address', 'email', 'phone', 'created_at'])
+            ->filter(request()->only(['search']))
+            ->sorting(request()->only(['field', 'direction']))
+            ->latest('created_at')
+            ->paginate(request()->load ?? 10)
+            ->withQueryString();
+
         return inertia('Admin/Publishers/Index', [
             'page_settings' => [
                 'title' => 'Penerbit',
-                'subtitle' => 'Mennampilkan semua data penerbit yang tersedia pada platform ini'
+                'subtitle' => 'Mennampilkan semua data penerbit yang tersedia pada platform ini',
             ],
             'publishers' => PublisherResource::collection($publishers)->additional([
                 'meta' => [
                     'has_pages' => $publishers->hasPages(),
                 ],
             ]),
-            'state' =>  [
+            'state' => [
                 'page' => request()->page ?? 1,
                 'search' => request()->search ?? '',
                 'load' => 10,
@@ -57,10 +58,10 @@ class PublisherController extends Controller
 
     public function store(PublisherRequest $request): RedirectResponse
     {
-        try{
+        try {
             Publisher::create([
                 'name' => $name = $request->name,
-                'slug' => str()->lower(str()->slug($name).str()->random(4)),
+                'slug' => str()->lower(str()->slug($name) . str()->random(4)),
                 'address' => $request->address,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -68,10 +69,12 @@ class PublisherController extends Controller
             ]);
 
             flashMessage(MessageType::CREATED->message('Penerbit'));
+
             return to_route('admin.publishers.index');
 
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.publishers.index');
         }
     }
@@ -91,10 +94,10 @@ class PublisherController extends Controller
 
     public function update(Publisher $publisher, PublisherRequest $request): RedirectResponse
     {
-        try{
+        try {
             $publisher->update([
                 'name' => $name = $request->name,
-                'slug' => $name !== $publisher->name ? str()->lower(str()->slug($name).str()->random(4)) : $publisher->slug,
+                'slug' => $name !== $publisher->name ? str()->lower(str()->slug($name) . str()->random(4)) : $publisher->slug,
                 'address' => $request->address,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -102,10 +105,12 @@ class PublisherController extends Controller
             ]);
 
             flashMessage(MessageType::UPDATED->message('Penerbit'));
+
             return to_route('admin.publishers.index');
 
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.publishers.index');
         }
     }
@@ -117,9 +122,11 @@ class PublisherController extends Controller
             $publisher->delete();
 
             flashMessage(MessageType::DELETED->message('Penerbit'));
+
             return to_route('admin.publishers.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.publishers.index');
         }
     }

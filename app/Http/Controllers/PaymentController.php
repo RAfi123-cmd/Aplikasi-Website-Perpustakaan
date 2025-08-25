@@ -41,15 +41,14 @@ class PaymentController extends Controller
             ], 200);
         } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
 
-
     public function callback(Request $request): JsonResponse
     {
-        $serverKey = config('services.midtrans.server_key'); 
+        $serverKey = config('services.midtrans.server_key');
         $signatureKey = signatureMidtrans(
             $request->order_id,
             $request->status_code,
@@ -59,27 +58,27 @@ class PaymentController extends Controller
 
         if ($request->signature_key !== $signatureKey) {
             return response()->json([
-                'error' => 'Unauthorized'
+                'error' => 'Unauthorized',
             ], 401);
         }
 
         $return_book = ReturnBook::query()
             ->where('return_book_code', $request->order_id)
             ->first();
-        
-        if(!$return_book) {
+
+        if (! $return_book) {
             return response()->json([
                 'message' => 'Pengembalian tidak ditemukan',
             ], 404);
         }
 
-        if(!$return_book->fine){
+        if (! $return_book->fine) {
             return response()->json([
                 'message' => 'Denda tidak ditemukan',
             ], 404);
         }
 
-        switch($request->transaction_status) {
+        switch ($request->transaction_status) {
             case 'settlement':
                 $return_book->fine->payment_status = FinePaymentStatus::SUCCESS->value;
                 $return_book->fine->save();
@@ -93,7 +92,6 @@ class PaymentController extends Controller
             case 'capture':
                 $return_book->fine->payment_status = FinePaymentStatus::SUCCESS->value;
                 $return_book->fine->save();
-
 
                 $return_book->status = ReturnBookStatus::RETURNED->value;
                 $return_book->save();

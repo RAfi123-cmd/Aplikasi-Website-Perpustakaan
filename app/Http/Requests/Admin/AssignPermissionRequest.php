@@ -29,9 +29,9 @@ class AssignPermissionRequest extends FormRequest
         ];
     }
 
-    public function  attributes(): array
+    public function attributes(): array
     {
-        return  [
+        return [
             'permissions' => 'Izin',
         ];
     }

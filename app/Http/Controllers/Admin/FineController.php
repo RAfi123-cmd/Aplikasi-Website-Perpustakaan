@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\ReturnFineSingleResource;
 use App\Models\ReturnBook;
-use Illuminate\Http\Request;
 use Inertia\Response;
 
 class FineController extends Controller

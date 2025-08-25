@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-
 #[ObservedBy(BookObserver::class)]
 class Book extends Model
 {
@@ -30,26 +29,37 @@ class Book extends Model
         'cover',
         'price',
         'category_id',
-        'publisher_id'
+        'publisher_id',
     ];
 
-    protected function casts(): array
+    public static function leastLoanBooks($limit = 5)
     {
-        return [
-            'language'  => BookLanguage::class,
+        return self::query()
+            ->select(['id', 'title', 'author'])
+            ->withCount('loans')
+            ->orderBy('loans_count')
+            ->limit($limit)
+            ->get();
+    }
 
-            'status' => BookStatus::class,
-        ];
+    public static function mostLoanBooks($limit = 5)
+    {
+        return self::query()
+            ->select(['id', 'title', 'author'])
+            ->withCount('loans')
+            ->orderByDesc('loans_count')
+            ->limit($limit)
+            ->get();
     }
 
     public function category(): BelongsTo
     {
-        return  $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function stock(): HasOne
     {
-        return  $this->hasOne(Stock::class);
+        return $this->hasOne(Stock::class);
     }
 
     public function loans(): HasMany
@@ -59,7 +69,7 @@ class Book extends Model
 
     public function publisher(): BelongsTo
     {
-        return  $this->belongsTo(Publisher::class);
+        return $this->belongsTo(Publisher::class);
     }
 
     public function scopeFilter(Builder $query, array $filters): void
@@ -74,7 +84,7 @@ class Book extends Model
                     'publication_year',
                     'isbn',
                     'language',
-                    'status'
+                    'status',
                 ], 'REGEXP', $search);
             });
         });
@@ -99,7 +109,6 @@ class Book extends Model
         return false;
     }
 
-
     public function stock_loan()
     {
         return $this->updateStock('available', 'loan');
@@ -120,20 +129,12 @@ class Book extends Model
         return $this->updateStock('loan', 'available');
     }
 
-    public static function leastLoanBooks($limit = 5){
-        return self::query()
-            ->select(['id', 'title', 'author'])
-            ->withCount('loans')
-            ->orderBy('loans_count')
-            ->limit($limit)
-            ->get();
-    }
-    public static function mostLoanBooks($limit = 5){
-        return self::query()
-            ->select(['id', 'title', 'author'])
-            ->withCount('loans')
-            ->orderByDesc('loans_count')
-            ->limit($limit)
-            ->get();
+    protected function casts(): array
+    {
+        return [
+            'language' => BookLanguage::class,
+
+            'status' => BookStatus::class,
+        ];
     }
 }

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PermissionRequest;
 use App\Http\Resources\Admin\PermissionResource;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
 use Throwable;
@@ -18,13 +17,13 @@ class PermissionController extends Controller
     {
         $permissions = Permission::query()
             ->select(['id', 'name', 'guard_name', 'created_at'])
-            ->when(request()->search, function($query,  $search){
+            ->when(request()->search, function ($query, $search) {
                 $query->whereAny([
                     'name',
                     'guard_name',
                 ], 'REGEXP', $search);
             })
-            ->when(request()->field && request()->direction, fn($query) => $query->orderBy(request()->field, request()->direction))
+            ->when(request()->field && request()->direction, fn ($query) => $query->orderBy(request()->field, request()->direction))
             ->paginate(request()->load ?? 10)
             ->withQueryString();
 
@@ -33,8 +32,8 @@ class PermissionController extends Controller
                 'title' => 'Izin',
                 'subtitle' => 'Menampilkan semua data izin yang tersedia pada platform ini',
             ],
-            'permissions' =>  PermissionResource::collection($permissions)->additional([
-                'meta'  => [
+            'permissions' => PermissionResource::collection($permissions)->additional([
+                'meta' => [
                     'has_pages' => $permissions->hasPages(),
                 ],
             ]),
@@ -54,7 +53,7 @@ class PermissionController extends Controller
                 'subtitle' => 'Buat izin baru di sini. Klik simpan setelah selesai.',
                 'method' => 'POST',
                 'action' => route('admin.permissions.store'),
-            ]
+            ],
         ]);
     }
 
@@ -67,12 +66,15 @@ class PermissionController extends Controller
             ]);
 
             flashMessage(MessageType::CREATED->message('izin'));
+
             return to_route('admin.permissions.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
+
             return to_route('admin.permissions.index');
         }
     }
+
     public function edit(Permission $permission): Response
     {
         return inertia('Admin/Permissions/Edit', [
@@ -82,7 +84,7 @@ class PermissionController extends Controller
                 'method' => 'PUT',
                 'action' => route('admin.permissions.update', $permission),
             ],
-            'permission' =>  $permission,
+            'permission' => $permission,
         ]);
     }
 
@@ -95,24 +97,27 @@ class PermissionController extends Controller
             ]);
 
             flashMessage(MessageType::UPDATED->message('izin'));
+
             return to_route('admin.permissions.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
+
             return to_route('admin.permissions.index');
         }
     }
+
     public function destroy(Permission $permission): RedirectResponse
     {
         try {
             $permission->delete();
 
             flashMessage(MessageType::DELETED->message('izin'));
+
             return to_route('admin.permissions.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
+
             return to_route('admin.permissions.index');
         }
     }
-
-
 }

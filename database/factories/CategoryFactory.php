@@ -27,9 +27,9 @@ class CategoryFactory extends Factory
                 'Teknologi',
                 'Fantasi',
                 'Pengembangan Diri',
-                'Misteri'
+                'Misteri',
             ]),
-            'slug' => str()->lower(str()->slug($name). str()->random(4)),
+            'slug' => str()->lower(str()->slug($name) . str()->random(4)),
         ];
     }
 }

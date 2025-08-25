@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\StockRequest;
 use App\Http\Resources\Admin\StockResource;
 use App\Models\Stock;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 use Throwable;
 
@@ -22,10 +21,11 @@ class BookStockReportController extends Controller
             ->sorting(request()->only(['field', 'direction']))
             ->paginate(request()->load ?? 10)
             ->withQueryString();
+
         return inertia('Admin/BookStockReports/Index', [
             'page_settings' => [
                 'title' => 'Laporan Stok Buku',
-                'subtitle' => 'Menampilkan laporan stok buku yang tersedia pada platform ini.'
+                'subtitle' => 'Menampilkan laporan stok buku yang tersedia pada platform ini.',
             ],
             'stocks' => StockResource::collection($stocks)->additional([
                 'meta' => [
@@ -47,19 +47,20 @@ class BookStockReportController extends Controller
                 'title' => 'Edit Stok',
                 'subtitle' => 'Edit stok disini. Klik simpan setelah selesai.',
                 'method' => 'PUT',
-                'action' => route('admin.book-stock-reports.update', $stock)
+                'action' => route('admin.book-stock-reports.update', $stock),
             ],
             'stock' => $stock,
         ]);
     }
 
-    public function update(Stock  $stock, StockRequest $request): RedirectResponse
+    public function update(Stock $stock, StockRequest $request): RedirectResponse
     {
         try {
             $minimum_total = $request->available + $request->loan + $request->lost + $request->damaged;
 
-            if($request->total < $minimum_total) {
+            if ($request->total < $minimum_total) {
                 flashMessage('Total tidak boleh lebih kecil dari peminjaman yang tersedia, dipinjam, hilang, dan rusak.', 'error');
+
                 return to_route('admin.book-stock-reports.index');
             }
 
@@ -69,9 +70,11 @@ class BookStockReportController extends Controller
             ]);
 
             flashMessage(MessageType::CREATED->message('stok buku'));
+
             return to_route('admin.book-stock-reports.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()));
+
             return to_route('admin.book-stock-reports.index');
         }
     }

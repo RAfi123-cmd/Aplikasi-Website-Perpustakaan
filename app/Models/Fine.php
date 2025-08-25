@@ -16,25 +16,8 @@ class Fine extends Model
         'other_fee',
         'total_fee',
         'payment_status',
-        'fine_date'
+        'fine_date',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'payment_status'  => FinePaymentStatus::class,
-            'fine_date' => 'date',
-        ];
-    }
-
-    public function returnBook(): BelongsTo
-    {
-        return $this->belongsTo(ReturnBook::class);
-    }
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public static function totalFines(): array
     {
@@ -45,6 +28,24 @@ class Fine extends Model
                 ->whereYear('created_at', Carbon::now()->year)
                 ->count(),
             'years' => self::whereYear('created_at', Carbon::now()->year)->count(),
+        ];
+    }
+
+    public function returnBook(): BelongsTo
+    {
+        return $this->belongsTo(ReturnBook::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'payment_status' => FinePaymentStatus::class,
+            'fine_date' => 'date',
         ];
     }
 }

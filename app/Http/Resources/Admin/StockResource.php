@@ -25,7 +25,7 @@ class StockResource extends JsonResource
             'book' => [
                 'id' => $this->book?->id,
                 'title' => $this->book?->title,
-            ]
+            ],
         ];
     }
 }

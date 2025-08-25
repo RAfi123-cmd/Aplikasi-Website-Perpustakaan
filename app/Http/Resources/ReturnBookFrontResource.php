@@ -20,7 +20,7 @@ class ReturnBookFrontResource extends JsonResource
             'return_book_code' => $this->return_book_code,
             'status' => $this->status,
             'return_date' => $this->return_date ? Carbon::parse($this->return_date)->format('d M Y') : null,
-            'created_at' =>  $this->created_at->format('d M Y'),
+            'created_at' => $this->created_at->format('d M Y'),
             'book' => $this->whenLoaded('book', [
                 'id' => $this->book?->id,
                 'title' => $this->book?->title,
@@ -36,7 +36,7 @@ class ReturnBookFrontResource extends JsonResource
                 'id' => $this->user?->id,
                 'name' => $this->user?->name,
             ]),
-            'fine' =>  $this->whenLoaded('fine', $this->fine?->total_fee),
+            'fine' => $this->whenLoaded('fine', $this->fine?->total_fee),
             'return_book_check' => $this->whenLoaded('returnBookCheck', $this->returnBookCheck?->condition),
 
         ];

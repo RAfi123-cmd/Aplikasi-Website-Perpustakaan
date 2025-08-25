@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
                 'required',
                 'min:3',
                 'max:255',
-                'string'
+                'string',
             ],
             'email' => [
                 'required',
@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
                 Rule::unique('users')->ignore($this->user),
             ],
             'password' => Rule::when($this->routeIs('admin.users.store'), [
-                'required', 'min:8', 'max:255', 'confirmed'
+                'required', 'min:8', 'max:255', 'confirmed',
             ]),
             Rule::when($this->routeIs('admin.users.update'), [
                 'nullable', 'min:8', 'max:255', 'confirmed',
@@ -49,18 +49,18 @@ class UserRequest extends FormRequest
             'avatar' => [
                 'nullable',
                 'mimes:png,jpg',
-                'max:248'
+                'max:248',
             ],
             'date_of_birth' => [
                 'nullable',
-                'date'
+                'date',
             ],
             'address' => [
                 'nullable',
                 'string',
                 'min:3',
-                'max:255'
-            ]
+                'max:255',
+            ],
         ];
     }
 

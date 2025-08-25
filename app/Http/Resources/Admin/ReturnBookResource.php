@@ -36,7 +36,7 @@ class ReturnBookResource extends JsonResource
                 'name' => $this->user?->name,
             ]),
             'fine' => $this->whenLoaded('fine', $this->fine?->total_fee),
-            'return_book_check' => $this->whenLoaded('returnBookCheck',  $this->returnBookCheck?->condition), 
+            'return_book_check' => $this->whenLoaded('returnBookCheck', $this->returnBookCheck?->condition),
         ];
     }
 }

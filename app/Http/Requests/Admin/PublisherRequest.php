@@ -31,35 +31,35 @@ class PublisherRequest extends FormRequest
             'address' => [
                 'nullable',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'email' => [
                 'nullable',
                 'email',
                 'string',
-                'max:255'
+                'max:255',
             ],
-            'phone' =>  [
+            'phone' => [
                 'nullable',
                 'string',
-                'max:15'
+                'max:15',
             ],
             'logo' => [
                 'nullable',
                 'mimes:png,jpg,jpeg,webp',
-                'max:2048'
-            ]
+                'max:2048',
+            ],
         ];
     }
 
     public function attributes(): array
     {
-        return[
+        return [
             'name' => 'Nama',
             'address' => 'Alamat',
             'email' => 'Email',
             'phone' => 'Nomor Handphone',
-            'logo'  => 'Logo',
+            'logo' => 'Logo',
         ];
     }
 }

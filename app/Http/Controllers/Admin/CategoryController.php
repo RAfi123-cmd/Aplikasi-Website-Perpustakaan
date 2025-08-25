@@ -9,13 +9,13 @@ use App\Http\Resources\Admin\CategoryResource;
 use App\Models\Category;
 use App\Traits\HasFile;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 use Throwable;
 
 class CategoryController extends Controller
 {
     use HasFile;
+
     public function index(): Response
     {
         $categories = Category::query()
@@ -24,8 +24,8 @@ class CategoryController extends Controller
             ->sorting(request()->only(['field', 'direction']))
             ->paginate(request()->load ?? 10)
             ->withQueryString();
-        
-        return inertia('Admin/Categories/Index',  [
+
+        return inertia('Admin/Categories/Index', [
             'categories' => CategoryResource::collection($categories)->additional([
                 'meta' => [
                     'has_pages' => $categories->hasPages(),
@@ -36,13 +36,14 @@ class CategoryController extends Controller
                 'subtitle' => 'Menampilkan semua data kategori yang tersedia pada platform ini',
             ],
             'state' => [
-                'page' =>  request()->page ?? 1,
+                'page' => request()->page ?? 1,
                 'search' => request()->search ?? '',
                 'load' => 10,
-                
+
             ],
         ]);
     }
+
     public function create(): Response
     {
         return inertia('Admin/Categories/Create', [
@@ -55,9 +56,9 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function store(CategoryRequest $request): RedirectResponse 
+    public function store(CategoryRequest $request): RedirectResponse
     {
-        try{
+        try {
             Category::create([
                 'name' => $name = $request->name,
                 'slug' => str()->lower(str()->slug($name) . str()->random(4)),
@@ -68,7 +69,7 @@ class CategoryController extends Controller
             flashMessage(MessageType::CREATED->message('Kategori'));
 
             return to_route('admin.categories.index');
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
 
             return to_route('admin.categories.index');
@@ -82,7 +83,7 @@ class CategoryController extends Controller
                 'title' => 'Edit Kategori',
                 'subtitle' => 'Edit Kategori disini. Klik simpan setelah selesai',
                 'method' => 'PUT',
-                'action' => route('admin.categories.update', $category)
+                'action' => route('admin.categories.update', $category),
             ],
             'category' => $category,
         ]);
@@ -90,7 +91,7 @@ class CategoryController extends Controller
 
     public function update(Category $category, CategoryRequest $request): RedirectResponse
     {
-        try{
+        try {
             $category->update([
                 'name' => $name = $request->name,
                 'slug' => $name !== $category->name ? str()->lower(str()->slug($name) . str()->random(4)) : $category->slug,
@@ -101,25 +102,26 @@ class CategoryController extends Controller
             flashMessage(MessageType::UPDATED->message('Kategori'));
 
             return to_route('admin.categories.index');
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.categories.index');
         }
     }
 
     public function destroy(Category $category): RedirectResponse
     {
-        try{
+        try {
             $this->delete_file($category, 'cover');
-
 
             $category->delete();
 
             flashMessage(MessageType::DELETED->message('Kategori'));
 
             return to_route('admin.categories.index');
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
             return to_route('admin.categories.index');
         }
     }

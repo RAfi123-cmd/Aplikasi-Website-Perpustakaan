@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\AnnouncementRequest;
 use App\Http\Resources\Admin\AnnouncementResource;
 use App\Models\Announcement;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 use Throwable;
 
@@ -41,7 +40,7 @@ class AnnouncementController extends Controller
                 'title' => 'Tambah Pengumuman',
                 'subtitle' => 'Buat pengumuman baru di sini. Klik simpan setelah selesai.',
                 'method' => 'POST',
-                'action' =>  route('admin.announcements.store'),
+                'action' => route('admin.announcements.store'),
             ],
         ]);
     }
@@ -60,9 +59,11 @@ class AnnouncementController extends Controller
             ]);
 
             flashMessage(MessageType::CREATED->message('pengumuman'));
+
             return to_route('admin.announcements.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message($e->getMessage()), 'error');
+
             return to_route('admin.announcements.index');
         }
     }
@@ -74,19 +75,19 @@ class AnnouncementController extends Controller
                 'title' => 'Edit Pengumuman',
                 'subtitle' => 'Edit pengumuman di sini. Klik simpan setelah selesai.',
                 'method' => 'PUT',
-                'action' =>  route('admin.announcements.update', $announcement),
+                'action' => route('admin.announcements.update', $announcement),
             ],
             'announcement' => $announcement,
         ]);
     }
 
-    public function update(Announcement $announcement,AnnouncementRequest $request): RedirectResponse
+    public function update(Announcement $announcement, AnnouncementRequest $request): RedirectResponse
     {
         try {
             if ($request->is_active) {
                 Announcement::where('is_active', true)
-                ->where('id', '!=', $announcement->id)
-                ->update(['is_active' => false]);
+                    ->where('id', '!=', $announcement->id)
+                    ->update(['is_active' => false]);
             }
 
             $announcement->update([
@@ -96,9 +97,11 @@ class AnnouncementController extends Controller
             ]);
 
             flashMessage(MessageType::UPDATED->message('pengumuman'));
+
             return to_route('admin.announcements.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message($e->getMessage()), 'error');
+
             return to_route('admin.announcements.index');
         }
     }
@@ -109,9 +112,11 @@ class AnnouncementController extends Controller
             $announcement->delete();
 
             flashMessage(MessageType::DELETED->message('pengumuman'));
+
             return to_route('admin.announcements.index');
         } catch (Throwable $e) {
             flashMessage(MessageType::ERROR->message($e->getMessage()), 'error');
+
             return to_route('admin.announcements.index');
         }
     }
